@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div align="center">
+<h1>Editing Narration</h1>
+<form action="#" th:action="@{/narration/add}" th:object="${narration}" method="POST">
+<table>
+<tr>
+<td>Id:</td>
+<td><input type="number" th:field="*{id}" readonly="readonly"/> </td>
+</tr>
+<tr>
+<td>Narration:</td>
+<td><input type="text" th:field="*{narration}"/> </td>
+</tr>
+<tr>
+<td colspan="2">
+	<button type="submit" class="btn btn-succesful col-2" name="Save" value="Save"> Save </button>
+    </td>
+     <td colspan="2">       <button type="submit" class="btn btn-danger col-2" name="Cancel" value= "Cancel">Cancel</button>
+         
+</tr>
+</table>
+
+</form>
+</div>
+</body>
+</html>

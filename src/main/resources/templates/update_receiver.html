@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Update Receiver</title>
+</head>
+<body>
+<div align="center">
+<h1>Editing Receiver</h1>
+<form action="#" th:action="@{/receiver/add}" th:object="${receiver}" method="post">
+<table>
+<tr>
+<td>Id:</td>
+<td><input type="number" th:field="*{id}" readonly="readonly"/> </td>
+</tr>
+<tr>
+<td>Receiver_Name:</td>
+<td><input type="text" th:field="*{receiver_name}"/> </td>
+</tr>
+<tr>
+<td colspan="2"><button type="submit" name="Update" value="Update">Update</button></td>
+
+</tr>
+</table>
+
+</form>
+</div>
+</body>
+</html>

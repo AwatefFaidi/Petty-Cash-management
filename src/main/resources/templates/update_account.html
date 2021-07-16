@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"  data-textdirection="ltr">
+<!-- BEGIN: Head-->
+<head>
+    <meta charset="ISO-8859-1">
+    <title>New user</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+	<div class="col-md-6 col-xs-12 col-sm-6 col-md-offset-3">
+		<div class="card">
+	 		
+			<div   class="card-header bg-primary text-center">Update Account</div>
+			
+			 <div class="card-panel ">
+               
+               <form action="#" th:action="@{/account/add}" th:object="${account}" method="POST">
+       			 	
+                    <input type="hidden" th:field="*{id}" />
+            <div class="col s12">
+                <div class="container">
+                    <div class="section">
+                        <div class="card">
+                            <div class="card-content">
+                                <div id="card-stats" class="pt-0">
+									
+										<div class="input-field col m6 s12">
+											<input id="account_name" type="text" th:field="*{accountname}">
+											<label for="account_name" class="">Account Name</label>
+										</div>
+										<div class="input-field col m6 s12">
+											<input id="opening_balance" type="text" th:field="*{openingbalance}">
+											<label for="opening_balance" class="">Opening Balance</label>
+										</div>
+										<div class="input-field col m6 s12">
+										
+											<select th:field="*{users}">
+												<option value="" disabled selected>Select User(s)</option>
+												<th:block th:each="user : ${listusers}">
+												<option  th:text="${user.username}" th:value="${user.id}" ></option>
+												</th:block>
+											</select>
+											
+											
+										</div>
+									
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+			<div class="col s12">
+                <div class="container">
+                    <div class="section" style="text-align: center;">
+                       
+                        <button class="btn mb-1 waves-effect waves-light green mr-1" type="submit" value="Update"  name="Update">Update
+                            <i class="material-icons left">save</i>
+                        </button>
+                        <button class="btn mb-1 waves-effect waves-light red " type="submit"  value="Cancel" name="Cancel">Cancel
+                            <i class="material-icons left">cancel</i>
+                        </button>
+                    </div>
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+     </form>
+         </form>
+         </div>
+	</div>
+   </div>  
+</div>
+</div>
+</body>
+
+</html>
+           
+
+    
