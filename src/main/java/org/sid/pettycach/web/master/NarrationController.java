@@ -4,7 +4,9 @@ package org.sid.pettycach.web.master;
 import java.util.List;
 
 import org.sid.pettycach.dao.master.NarrationRepository;
+import org.sid.pettycach.dao.transaction.ExpenseVoucherRepository;
 import org.sid.pettycach.entity.master.Narration;
+import org.sid.pettycach.entity.transaction.ExpenseVoucher;
 import org.sid.pettycach.service.master.NarrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +33,8 @@ public class NarrationController {
 	
 	@Autowired 
 	NarrationService narrationService;
-	
+	@Autowired
+	ExpenseVoucherRepository expensevoucherrepository;
 
 	@GetMapping("/narration")
 	public String shownarrationList(Model model) {
@@ -74,9 +77,19 @@ public class NarrationController {
 	
 	@RequestMapping("narration/delete/{id}")
 	public String deleteNarration(@PathVariable("id")int id)
-	{
-		narrationRespository.deleteById((long) id); 
+	{    Narration narration = narrationRespository.findById((long) id).orElse(null);
+	
+	         if (narration!= expensevoucherrepository.findnarration(id) )
+	           {
+	        	 narrationRespository.deleteById((long) id);
+	     		return "redirect:/narration";
+	                   }
+	         else
+	     {
+		//narrationRespository.deleteById((long) id);
 		return "redirect:/narration";
+		}
+	    
 	}
 	
 	@GetMapping("narration/edit/{id}")
@@ -95,12 +108,6 @@ public class NarrationController {
         
 	}
 	
-	/*@GetMapping("/new")
-	public String newformfornarration(Model model)
-	{
-		Narration  nar = new Narration();
-		model.addAttribute("narra", nar);
-		return "new_narration";
-	}*/
+	
 }
 

@@ -3,6 +3,8 @@ package org.sid.pettycach.entity.transaction;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -17,6 +19,8 @@ import lombok.ToString;
 @PrimaryKeyJoinColumn(name = "EV_id")
 @Data @NoArgsConstructor @AllArgsConstructor @ToString
 public class ExpenseVoucher extends Voucher{
+	@Enumerated(EnumType.STRING)
+    private VoucherStatus expensestatus;
 	private double totalamount;
 	
 	private String voucherremarks;

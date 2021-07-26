@@ -27,14 +27,25 @@
             			<input type="text" th:field="*{name}" placeholder="User Last Name" class="form-control mb-4 col-4">
           			 </div>
            			 <div    class="col s12 m6 l3">
-               			 <label >Last Activity</label>
-           				 <input type="Date" th:field="*{last_activity}" placeholder="last_activity" class="form-control mb-4 col-4">
+               			 <label >Password</label>
+           				 <input   type="password" th:field="*{password}" placeholder="password" class="form-control mb-4 col-4 datepicker">
            			 </div>
+           			 <div    class="col s12 m6 l3">
+               			 <label >ConfirmedPaaword</label>
+           				 <input   type="password" th:field="*{passwordConfirm}" placeholder="passwordConfirm" class="form-control mb-4 col-4 datepicker">
+           			 </div>
+           			 <div    class="col s12 m6 l3">
+               			 <label >Last Activity</label>
+           				 <input   type="text" th:field="*{last_activity}" placeholder="last_activity" class="form-control mb-4 col-4 datepicker">
+           			 </div>
+           			 
            			 <div   class="col s12 m6 l3">
              			 <label >Status</label>
-             			 <select th:field="*{userstatus}" >
+             			  <div class="input-field">
+             			 <select class="form-control" th:field="*{userstatus}" >
                           <option th:each="s : ${status}" th:value="${s}" th:text="${s}">Any</option>
                          </select>
+                         </div>
             			 <!-- input type="text"  th:field="*{userstatus}" placeholder=" User Status" class="form-control mb-4 col-4" -->
             		</div>
            		   <div    class="col s12 m6 l3">

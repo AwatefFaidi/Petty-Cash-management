@@ -1,16 +1,19 @@
 package org.sid.pettycach.web;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.sid.pettycach.dao.AppRoleRepository;
 import org.sid.pettycach.dao.AppUserRepository;
+
 import org.sid.pettycach.entity.AppUser;
 import org.sid.pettycach.entity.App_Role;
 import org.sid.pettycach.entity.UserStatus;
 import org.sid.pettycach.entity.Userverified;
-import org.sid.pettycach.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -23,13 +26,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Transactional
 public class UserController {
-	 @Autowired
-	    private UserService userService;
+	 
 	 
 	 @Autowired
 	    private AppUserRepository appUserRepository;
 	 @Autowired
 	    private AppRoleRepository appRoleRepository;
+	 @Autowired
+	 private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	 
 	 
 	// display list of users
 	 @GetMapping("/users")
@@ -48,12 +54,17 @@ public class UserController {
 	        model.addAttribute("user", user);
 	        model.addAttribute("status",  UserStatus.values());
 	        model.addAttribute("verified",  Userverified.values());
+	        
 	        return "new_user";
 	    }
 	 
 		@PostMapping(value= "users/add",  params = "Save")
 		public String Save( @ModelAttribute("user") AppUser user) {
+			if(!user.getPassword().equals( user.getPasswordConfirm())) throw new RuntimeException("Please confirm your password");
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+	        
 			appUserRepository.save(user);
+			
 			return "redirect:/users";    
 		}
 		
@@ -72,11 +83,14 @@ public class UserController {
 		
 		@RequestMapping("users/delete/{id}")
 		public String deleteUser(@PathVariable("id")long id)
-		{	AppUser user= appUserRepository.findById(id).get(); 
+		{	
+			AppUser user= appUserRepository.findById(id).get(); 
+			
 			user.getRoles().removeAll(user.getRoles());
 			appUserRepository.delete(user);    
 			return "redirect:/users";
-		}
+		
+	        }
 		
 		@GetMapping("users/edit/{id}")
 	    public String EditUser(@PathVariable("id") int id, Model model) {

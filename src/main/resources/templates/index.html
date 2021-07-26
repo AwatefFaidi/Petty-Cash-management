@@ -35,7 +35,7 @@
             <div class="container">
                 <div id="login-page" class="row">
                     <div class="col s12 m6 l4 z-depth-4 card-panel border-radius-6 login-card bg-opacity-8">
-                        <form class="login-form" method="POST" th:action="@{/index}">
+                        <form class="login-form" method="POST" th:action="@{/login}">
                             <div class="row">
                                 <div class="input-field col s12">
                                     <h5 class="ml-4">Sign in</h5>
@@ -44,7 +44,7 @@
                             <div class="row margin">
                                 <div class="input-field col s12">
                                     
-                                    <input id="username" type="text">
+                                    <input id="username" type="text" name="username" >
                                     <span th:text="${message}"></span>
                                     <label for="username" class="center-align">Username</label>
                                 </div>
@@ -52,7 +52,7 @@
                             <div class="row margin">
                                 <div class="input-field col s12">
                                     
-                                    <input id="password" type="password">
+                                    <input id="password" type="password" name="password"  >
                                     <span class="has-error" th:text="${error}"></span>
                                     <label for="password">Password</label>
                                     
@@ -100,6 +100,7 @@
     <script src="/app-assets/js/plugins.js"></script>
     <script src="/app-assets/js/search.js"></script>
     <script src="/app-assets/js/custom/custom-script.js"></script>
+    
     <!-- END THEME  JS-->
     <!-- BEGIN PAGE LEVEL JS-->
     <!-- END PAGE LEVEL JS-->

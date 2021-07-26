@@ -362,12 +362,14 @@
 						</a>
 						
 						<div id="newreceipt" class="modal">
+						<form action="#" th:action="@{/receipt/add}" th:object="${receiptvoucher}" method="POST">
+                                          
                             <div class="modal-content">
                                 <div id="basic-form" class="card card card-default scrollspy">
                                     <div class="card-content">
                                         <h4 class="card-title">Receipt Details</h4>
-                                        <form action="#" th:action="@{/receipt/add}" th:object="${receiptvoucher}" method="POST">>
-                                            <div class="row">
+                                        
+                                          <div class="row">
                                                 <div class="input-field col s12">
                                                     <select th:field="*{account}">
                                                         <option value="" disabled selected>Choose your Account</option>
@@ -380,7 +382,9 @@
                                             </div>
                                             <div class="row">
                                                 <div  class="input-field col s12">
-                                                    <input  th:field="*{amount}" th:value="3000.00" id="current_balance" type="text" class="validate valid">
+                                                <th:block th:each="account : ${listaccount}">
+                                                    <input  th:field="*{account.openingbalance}"  id="current_balance" type="text" class="validate valid">
+                                                    </th:block>
                                                     <label class="active" for="current_balance">Current Balance</label>
                                                 </div>
                                             </div>
@@ -417,7 +421,7 @@
                                                 </div>
                                                 
                                             </div>
-                                        </form>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -426,6 +430,7 @@
 								<button  class="modal-action modal-close waves-effect waves-red btn-flat " value="Cancel" name="Cancel">Cancel</button>
                                 <button  class="modal-action modal-close waves-effect waves-green btn-flat" value="Save" name="Save">Save </button>
                             </div>
+                            </form>
                         </div>
 						
 						<a class="waves-effect waves-light btn modal-trigger green mb-2 mr-1" href="#receiptexport">Export
@@ -465,28 +470,30 @@
                         <div class="users-list-filter">
                             <div class="card-panel">
                                 <div class="row">
-                                    <form>
+                                    <form action="#" th:action="@{/receipt/filter}" th:object="${receiptvoucher}" method="POST">
+                                    
                                         <div class="col s12 m6 l3">
                                             <label for="users-list-verified">Account</label>
                                             <div class="input-field">
-                                                <select class="form-control" id="account_list">
+                                                <select   name= "account" th:field="*{account}" class="form-control" id="account_list">
                                                     <option value="">All</option>
-                                                    <option value="1">Convibe Technologies</option>
-                                                    <option value="2">Noaaxim Technologies</option>
-													<option value="2">Ireidius Technologies</option>
-                                                </select>
-                                            </div>
+                                                    
+                                                        <th:block th:each="account : ${listaccount}">
+                                                        <option  th:text="${account.accountname}" th:value="${account.id}"></option>
+                                                        </th:block>
+                                                    </select>
+                                              </div>
                                         </div>
                                         <div class="col s12 m6 l3">
 											<label for="date">Date</label>
-                                            <input type="text" class="datepicker" id="date">
+                                            <input type="text" class="datepicker" id="date" name="date" th:field="*{datecreation}">
                                         </div>
                                         <div class="col s12 m6 l3">
 											<label for="amount" class="">Amount (QAR)</label>
-                                            <input id="amount" type="text">
+                                            <input id="amount"  name="amount" type="text" th:field="*{amount}">
                                         </div>
                                         <div class="col s12 m6 l3 display-flex align-items-center show-btn">
-                                            <button type="submit" class="btn btn-block indigo waves-effect waves-light">Show</button>
+                                            <button type="submit" class="btn btn-block indigo waves-effect waves-light" name="Show">Show</button>
                                         </div>
                                     </form>
                                 </div>
@@ -505,6 +512,8 @@
                                                     <th>Petty Cash Account</th>
                                                     <th>Amount (QAR)</th>
                                                     <th>Remarks</th>
+                                                    <th>Status</th>
+                                                    <th>verify</th>
                                                     <th>edit</th>
 													<th>delete</th>
                                                 </tr>
@@ -513,18 +522,190 @@
                                         		<tr th:each="rvoucher : ${listreceiptvoucher}">
                                         			<td th:text="${rvoucher.id}"></td>
                                        				<td th:text="${rvoucher.datecreation}"></td>
-                                       				<td th:text="${rvoucher.account }"></td>
+                                       				<td th:text="${rvoucher.account.accountname }"></td>
                                        				<td th:text="${rvoucher.amount }"></td>
-                                                     <td  th:text="${rvoucher.remarks}" ></td>
-                                         			 
-                                       				 <td>
-												     <a th:href="@{'receipt/edit/'+${rvoucher.id}}" class="modal-trigger"><i class="material-icons mr-1" >edit</i></a>
-												     </td>
-												     <td>
-												     <a th:href="@{'receipt/delete/'+${rvoucher.id}}" class="modal-trigger"><i class="material-icons">delete</i></a>
-													 </td>
-                                        		</tr>
-                                                <tr>
+                                                    <td  th:text="${rvoucher.remarks}" ></td>
+                                                    <td  th:text="${rvoucher.receiptstatus}" ></td>
+                                                    <td><a href="#verify" class="modal-trigger"><i class="material-icons">done</i></a>
+                                         			   <div   id="verify" class="modal">
+						                              	  <form action="#" th:action="@{/receipt/verify}" th:object="${receiptvoucher}"  method="POST">
+                                          			 			<input type="hidden" name="id"  th:value="${rvoucher.id}">
+                                                     			<div class="modal-content">
+                                                 				 <div id="basic-form" class="card card card-default scrollspy">
+                                    								 <div class="card-content">
+                                       										 <h4 class="card-title">Receipt Details</h4>
+                                      
+                                           								 <div class="row">
+                                           								 <div class="input-field col s12">
+                                                								 <select name="account" th:field="*{account}" class="form-control" id="account_list">
+                                                   									 <option value="" disabled selected>All</option>
+                                                    									<th:block th:each="account : ${listaccount}">
+                                                     										 <option  th:text="${account.accountname}" th:value="${account.id}"></option>
+                                                    
+																							</th:block>
+                                                									</select>
+                                                    
+                                                  									 <label>Select Petty Cash Account</label>
+                                                								</div>
+                                                							
+                                                  									 
+                                            								</div>
+                                                                 		 <div class="row">
+                                                								<div class="input-field col s12">
+                                                
+                                                   									 <input  th:text="${rvoucher.account.openingbalance}"  id="current_balance" type="text" class="validate valid">
+                                                                                     <label class="active" for="current_balance">Current Balance</label>
+                                               									  </div>
+                                           									 </div>
+											                             <div class="row">
+                                                                           <div class="input-field col s12">
+                                                                            <input  name="id" id="voucher_number" th:text="${rvoucher.id}"  type="text">
+                                                                            <label for="voucher_number" class="">Voucher number</label>
+                                                                           </div>
+                                                                          </div>
+											                             <div class="row">
+                                                                          <div class="input-field col s12">
+                                                                            <input name="date" type="text" class="datepicker"  th:text="${rvoucher.datecreation}"  id="date">
+													                        <label for="date">Date</label>
+                                                                          </div>
+                                                                         </div>
+                                                                         <div class="row">
+                                                                            <div class="input-field col s12">
+                                                                               <input id="amount" type="text" th:text="${rvoucher.amount}" name="amount">
+                                                                               <label for="amount" class="">Amount (QAR)</label>
+                                                                             </div>
+                                                                           </div>
+											
+											                              <div class="row">
+                                                                            <div class="input-field col s12">
+                                                                              <input disabled="" value="Display the amount in words no editing" id="disabled" type="text" class="validate">
+                                                                              <label for="disabled" class="active">Amount in Words</label>
+                                                                             </div>
+                                                                          </div>
+											
+                                                                          <div class="row">
+                                                                            <div class="input-field col s12">
+                                                                              <textarea     class="materialize-textarea" th:text="${rvoucher.remarks}" name="remarks"></textarea>
+                                                                               <label for="remarks">Remarks</label>
+                                                                            </div>
+                                                                           </div>
+                                                
+                                            
+                                        
+                                                                        </div>
+                                                                   </div>
+                                                              </div>
+                           						    			<div class="modal-footer">
+																	<a th:href="@{'receiptvoucher'}" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
+                               						 				<button   class="modal-action modal-close waves-effect waves-green btn-flat " name="Verify" value="Verify">Verify</button>
+                            									</div>
+                           						   	     </form>
+                       							        </div>
+                                       				</td>
+												      <td>
+                                       				   
+												     <div >
+												      <a     href="#receiptedit"  class="modal-trigger "  ><i class="material-icons mr-1" >edit</i></a>
+												      </div>
+												      <div th:if="${rvoucher.receiptstatus == 'verified'}">
+												      <a    href="#"  class="modal-trigger "  ><i class="material-icons mr-1" >edit</i></a>
+												      </div>
+												       <div   id="receiptedit" class="modal">
+															<form action="#" th:action="@{/receipt/update}" th:object="${receiptvoucher}" method="POST">
+                            									<input type="hidden" name="id"  th:value="${rvoucher.id}">
+                           									 <div class="modal-content">
+                                                 				 <div id="basic-form" class="card card card-default scrollspy">
+                                    								 <div class="card-content">
+                                       										 <h4 class="card-title">Receipt Details</h4>
+                                      
+                                           								 <div class="row">
+                                                							<div class="input-field col s12">
+                                                								 <select name="account" th:field="*{account}" class="form-control" id="account_list">
+                                                   									 <option value="" disabled selected>All</option>
+                                                    									<th:block th:each="account : ${listaccount}">
+                                                     										 <option  th:text="${account.accountname}" th:value="${account.id}"></option>
+                                                    
+																							</th:block>
+                                                									</select>
+                                                    
+                                                  									 <label>Select Petty Cash Account</label>
+                                                								</div>
+                                            								</div>
+                                                                 		 <div class="row">
+                                                								<div class="input-field col s12">
+                                                
+                                                   									 <input  th:text="${rvoucher.account.openingbalance}"  id="current_balance" type="text" class="validate valid">
+                                                                                     <label class="active" for="current_balance">Current Balance</label>
+                                               									  </div>
+                                           									 </div>
+											                             <div class="row">
+                                                                           <div class="input-field col s12">
+                                                                            <input  name="id" id="voucher_number" th:text="${rvoucher.id}"  type="text">
+                                                                            <label for="voucher_number" class="">Voucher number</label>
+                                                                           </div>
+                                                                          </div>
+											                             <div class="row">
+                                                                          <div class="input-field col s12">
+                                                                            <input name="date" type="text" class="datepicker"  th:text="${rvoucher.datecreation}"  id="date">
+													                        <label for="date">Date</label>
+                                                                          </div>
+                                                                         </div>
+                                                                         <div class="row">
+                                                                            <div class="input-field col s12">
+                                                                               <input id="amount" type="text" th:text="${rvoucher.amount}" name="amount">
+                                                                               <label for="amount" class="">Amount (QAR)</label>
+                                                                             </div>
+                                                                           </div>
+											
+											                              <div class="row">
+                                                                            <div class="input-field col s12">
+                                                                              <input disabled="" value="Display the amount in words no editing" id="disabled" type="text" class="validate">
+                                                                              <label for="disabled" class="active">Amount in Words</label>
+                                                                             </div>
+                                                                          </div>
+											
+                                                                          <div class="row">
+                                                                            <div class="input-field col s12">
+                                                                              <textarea     class="materialize-textarea" th:text="${rvoucher.remarks}" name="remarks"></textarea>
+                                                                               <label for="remarks">Remarks</label>
+                                                                            </div>
+                                                                           </div>
+                                                
+                                            
+                                        
+                                                                        </div>
+                                                                   </div>
+                                                              </div>
+                                                             <div class="modal-footer">
+								                               <a th:href="@{'receiptvoucher'}" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
+                                                               <button   class="modal-action modal-close waves-effect waves-green btn-flat " value="Save" name="Save">Save</button>
+                                                             </div>
+                                                            </form>
+                                                         </div>
+						                            </td>
+												    <td>
+												     <a  href="#receiptdelete" class="modal-trigger"><i class="material-icons">delete</i></a>
+													 <div   id="receiptdelete" class="modal">
+						                              	<form action="#" th:action="@{/receipt/delete}"  method="POST">
+                                          			 			<input type="hidden" name="id"  th:value="${rvoucher.id}">
+                                                     			<div class="modal-content">
+                                                        	 		<h4>Delete Receipt</h4>
+                                                        			<p class="mt-5">
+								                            					You are about to delete the receipt. This action cannot be undone. Note that you can't delete a receipt which already has expense.
+																	</p>
+                            									</div>
+                           						    			<div class="modal-footer">
+																	<a th:href="@{'receiptvoucher'}" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
+                               						 				<button   class="modal-action modal-close waves-effect waves-green btn-flat " name="Delete" value="Delete">Delete</button>
+                            									</div>
+                           						   	  </form>
+                       							  </div>
+												 
+											     </td>
+                                        		  </tr>
+                            
+                                           
+                                            <tr>
                                                     <td>300</td>
                                                     <td>22/06/2021</td>
                                                     <td>Convibe Technologies</td>
@@ -533,6 +714,7 @@
                                                     <td><a href="#receiptedit" class="modal-trigger"><i class="material-icons">edit</i></a></td>
 													<td><a href="#receiptdelete" class="modal-trigger"><i class="material-icons">delete</i></a></td>
                                                 </tr>
+                                           
                                             </tbody>
                                         </table>
 
@@ -541,86 +723,6 @@
 									
                                 </div>
                             </div>
-							<div id="receiptedit" class="modal">
-                            <div class="modal-content">
-                                <div id="basic-form" class="card card card-default scrollspy">
-                                    <div class="card-content">
-                                        <h4 class="card-title">Receipt Details</h4>
-                                        <form>
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    <select>
-                                                        <option value="" disabled selected>Convibe Technologies</option>
-                                                        <option value="1">Convibe Technologies</option>
-                                                        <option value="2">Noaaxim Technologies</option>
-                                                        <option value="3">Ireidius Technologies</option>
-                                                    </select>
-                                                    <label>Select Petty Cash Account</label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    <input value="QAR 49,800.00" id="current_balance" type="text" class="validate valid">
-                                                    <label class="active" for="current_balance">Current Balance</label>
-                                                </div>
-                                            </div>
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input id="voucher_number" value="300" type="text">
-                                                    <label for="voucher_number" class="">Voucher number</label>
-                                                </div>
-                                            </div>
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input type="text" class="datepicker" value="22/06/2021" id="date">
-													<label for="date">Date</label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    <input id="amount" type="text">
-                                                    <label for="amount" class="">Amount (QAR)</label>
-                                                </div>
-                                            </div>
-											
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input disabled="" value="Display the amount in words no editing" id="disabled" type="text" class="validate">
-                                                    <label for="disabled" class="active">Amount in Words</label>
-                                                </div>
-                                            </div>
-											
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    <textarea id="remarks" value="opening" class="materialize-textarea"></textarea>
-                                                    <label for="remarks">Remarks</label>
-                                                </div>
-                                                
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-								<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Save</a>
-                            </div>
-                        </div>
-						
-						
-						
-						<div id="receiptdelete" class="modal">
-                            <div class="modal-content">
-                                <h4>Delete Receipt</h4>
-                                <p class="mt-5">
-									You are about to delete the receipt. This action cannot be undone. Note that you can't delete a receipt which already has expense.
-								</p>
-                            </div>
-                            <div class="modal-footer">
-								<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Delete</a>
-                            </div>
-                        </div>
                         </div>
                     </section>
                     <!-- users list ends -->

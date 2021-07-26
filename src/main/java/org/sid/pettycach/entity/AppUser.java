@@ -26,7 +26,7 @@ public class AppUser
     private UserStatus userstatus;
     @Enumerated(EnumType.STRING)
     private Userverified userverified;
-    @Temporal(TemporalType.TIMESTAMP)
+    // @Temporal(TemporalType.TIMESTAMP)
     private Date last_activity;	
     private String name;
     
@@ -36,9 +36,7 @@ public class AppUser
     @Transient
     private String passwordConfirm;
     
-    @ManyToMany(cascade = {
-            CascadeType.ALL,
-        },fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER)
         @JoinTable(
             name = "users_roles",
             joinColumns = {
@@ -49,8 +47,15 @@ public class AppUser
             }
         )
     private Collection<App_Role> roles=new ArrayList<>();
-
-
+/* public AppUser(String username, UserStatus userstatus, Userverified userverified, Date  last_activity, String name,Collection<App_Role> roles )
+ {
+	 this.username=username;
+	 this.userstatus=userstatus;
+	 this.userverified=userverified;
+	 this.last_activity=last_activity;
+	 this.name=name;
+	 this.roles=roles;
+ }*/
 }
   
   

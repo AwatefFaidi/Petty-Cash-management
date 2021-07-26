@@ -29,14 +29,23 @@ public  class Voucher   {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	@DateTimeFormat(pattern="dd/MM/yyyy")
+	private long id;
+	
+	 //@Temporal(TemporalType.DATE)
 	private  Date datecreation;
 	private double amount;
 	private String  remarks;
 	@OneToOne
     @JoinColumn(name = "account_id")
 	private Account account;
+	
+	protected Voucher (Date datecreation,double amount, String remarks, Account account)
+	{
+		this.datecreation = datecreation;
+        this.amount = amount;
+        this.remarks = remarks;
+        this.account = account;
+	}
 	
 
 }

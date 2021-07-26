@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.sid.pettycach.dao.AppUserRepository;
 import org.sid.pettycach.dao.master.AccountRepository;
+import org.sid.pettycach.dao.transaction.VoucherRepository;
 import org.sid.pettycach.entity.AppUser;
 import org.sid.pettycach.entity.App_Role;
 import org.sid.pettycach.entity.master.Account;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AccountController {
 	@Autowired 
 	AccountRepository accountRepository;
+	@Autowired 
+	VoucherRepository voucherRepository;
 	@Autowired 
 	AppUserRepository appuserRepository;
 	
@@ -73,8 +76,19 @@ public class AccountController {
 	{ 
 		Account account= accountRepository.findById(id).get(); 
 	    account.getUsers().removeAll(account.getUsers());
-		accountRepository.delete(account);
+		if (account != voucherRepository.findaccount(id))
+        {
+      	
+			accountRepository.delete(account);
+			return "redirect:/accounts";
+                }
+      
+      else
+        {
+
 		return "redirect:/accounts";
+	     }
+		
 	}
 	
 	@GetMapping("account/edit/{id}")
@@ -85,13 +99,5 @@ public class AccountController {
         model.addAttribute("listusers",listusers );
         return "accounts";
     }
-	/*
-	@GetMapping("account/new")
-	public String newformforaccount(Model model)
-	{ 
-		Account  account = new Account();
-		model.addAttribute("account", account);
-		return "new_account";
-	}*/
-
+	
 }

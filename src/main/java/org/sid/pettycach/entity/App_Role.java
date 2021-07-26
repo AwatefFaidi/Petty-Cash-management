@@ -20,6 +20,10 @@ public class App_Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roleName;
+    public App_Role(String roleName)
+    {
+    	this.roleName=roleName;
+    }
    
 
 }

@@ -34,5 +34,10 @@ public class Account {
             }
         )
     private Collection<AppUser> users=new ArrayList<>();
-
+   public Account(String accountname ,double openingbalance ,Collection<AppUser> users)
+    {
+    	this.accountname= accountname;
+    	this.openingbalance=openingbalance;
+    	this.users=users;
+    }
 }

@@ -3,7 +3,9 @@ package org.sid.pettycach.web.master;
 import java.util.List;
 
 import org.sid.pettycach.dao.master.ReceiversRepository;
+import org.sid.pettycach.dao.transaction.*;
 import org.sid.pettycach.entity.master.ExpenseHead;
+import org.sid.pettycach.entity.master.Narration;
 import org.sid.pettycach.entity.master.Receivers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,10 @@ public class RecieversController {
 	
 	@Autowired
 	ReceiversRepository receiversRepository;
+	@Autowired
+	ExpenseVoucherRepository expensevoucherrepository;
+	@Autowired
+	AdvanceVoucherRepository advancevoucherrepository;
 	
 	@GetMapping("/receivers")
 	public String showexpenseList(Model model) {
@@ -66,10 +72,27 @@ public class RecieversController {
 	@RequestMapping("receiver/delete/{id}")
 	public String deleteReceiver(@PathVariable("id")long id)
 	{
-		receiversRepository.deleteById(id); 
+		 
+		Receivers receiver = receiversRepository.findById((long) id).get();
+		
+        
+        if (receiver != advancevoucherrepository.findreceiver(id))
+          {
+        	
+        	receiversRepository.deleteById(id);
+    		return "redirect:/receivers";
+                  }
+        else if (receiver!= expensevoucherrepository.findreceiver(id) )
+          {
+        	receiversRepository.deleteById(id);
+    		return "redirect:/receivers";
+                  }
+        else
+          {
+
 		return "redirect:/receivers";
+	     }
 	}
-	
 	@GetMapping("receiver/edit/{id}")
     public String showUpdatereceiver(@PathVariable("id") long id, Model model) {
         Receivers receiver = receiversRepository.findById( id).orElse(null);

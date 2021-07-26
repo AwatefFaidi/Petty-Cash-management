@@ -367,6 +367,8 @@
 						</a>
 						
 						<div id="newexpense" class="modal"  style="width:85%;">
+						<form action="#" th:action="@{/expensevoucher/add}" th:object="${expensevoucher}" method="POST">
+                          
                             <div class="modal-content">
                     <section class="invoice-edit-wrapper section">
                         <div class="row">
@@ -379,11 +381,11 @@
 										<div class="row">
                                             <div class="row">
                                                 <div class="input-field col s6">
-                                                    <select>
+                                                     <select  th:field="*{account}">
                                                         <option value="" disabled selected>Choose your Account</option>
-                                                        <option value="1">Convibe Technologies</option>
-                                                        <option value="2">Noaaxim Technologies</option>
-                                                        <option value="3">Ireidius Technologies</option>
+                                                        <th:block th:each="account : ${listaccount}">
+                                                        <option  th:text="${account.accountname}" th:value="${account.id}"></option>
+                                                        </th:block>
                                                     </select>
                                                     <label>Select Petty Cash Account</label>
                                                 </div>
@@ -393,33 +395,35 @@
 										
                                         <div class="row">
                                             <div class="input-field col s6">
-                                                <input id="voucher_number" type="text">
+                                                <input id="voucher_number" type="text" th:field="*{id}">
                                                 <label for="voucher_number" class="">Voucher number</label>
                                             </div>
                                             
                                             <div class="input-field col s6">
-                                                <input type="text" class="datepicker" id="date">
+                                                <input type="text" class="datepicker" id="date" th:field="*{datecreation}">
 												<label for="date">Date</label>
                                             </div>
                                         </div>
 										
 										<div class="row">
                                             <div class="input-field col s6">
-                                                <select>
+                                                <select th:field="*{narration}">
+                                                 
                                                     <option value="" disabled selected>Select Narration</option>
-                                                    <option value="1">Vehicle Maintanence</option>
-                                                    <option value="2">Cash Purchase</option>
-                                                    <option value="3">Reimbursement</option>
+                                                     <th:block th:each="narration : ${listnarration}">
+                                                    <option  th:text="${narration.narration}" th:value="${narration.id}"></option>
+                                                        </th:block>
                                                 </select>
                                                 <label>Select Narration</label>
                                             </div>
                                             
                                             <div class="input-field col s6">
-                                                <select>
+                                                  
+                                                <select th:field="*{receiver}">
                                                     <option value="" disabled selected>Select Receiver</option>
-                                                    <option value="1">Jino Pulickal Mathew</option>
-                                                    <option value="2">Receiver Name Two</option>
-                                                    <option value="3">Receiver Name Three</option>
+                                                    <th:block th:each="receiver : ${listreceiver}">
+                                                        <option  th:text="${receiver.receiver_name}" th:value="${receiver.id}"></option>
+                                                        </th:block>
                                                 </select>
                                                 <label>Select Receiver</label>
                                             </div>
@@ -428,12 +432,12 @@
                                        
                                         <!-- product details table-->
                                         <div class="invoice-product-details mb-3">
-                                            <form class="form invoice-item-repeater">
-                                                <div data-repeater-list="group-a">
+                                            <div id="expenses"  class="form invoice-item-repeater">
+                                                <div   data-repeater-list="group-a">
                                                     <div class="mb-2" data-repeater-item>
                                                         <!-- invoice Titles -->
                                                         <div class="row mb-1">
-                                                            <div class="col s3 m4">
+                                                            <div  class="col s3 m4">
                                                                 <h6 class="m-0">Expense Head</h6>
                                                             </div>
                                                             <div class="col s3">
@@ -447,18 +451,20 @@
                                                         <div class="invoice-item display-flex mb-1">
                                                             <div class="invoice-item-filed row pt-1">
                                                                 <div class="col s3 m4 input-field">
-                                                                    <select class="invoice-item-select browser-default">
-                                                                        <option value="1">Fuel</option>
-                                                                        <option value="2">Material Purchase</option>
-                                                                        <option value="3">Vehicle Parts</option>
+                                                                
+                                                                    <select   name="expenses" th:field="*{expenses}"  class="invoice-item-select browser-default">
+                                                                        
+                                                                        <th:block th:each="expensehead : ${listexpensehead}">
+                                                                        <option  th:text="${expensehead.description}" th:value="${expensehead.id}"></option>
+                                                                        </th:block>
                                                                        
                                                                     </select>
                                                                 </div>
                                                                 <div class="col m3 s3 input-field">
-                                                                    <input type="text" placeholder="Remarks">
+                                                                    <input type="text" placeholder="Remarks"  name="vremarks" th:field="*{voucherremarks}">
                                                                 </div>
                                                                 <div class="col m3 s3 input-field">
-                                                                    <input type="text" placeholder="QAR 0.00">
+                                                                    <input type="text"  name="amount" placeholder="QAR 0.00" th:field="*{amount}">
                                                                 </div>
                                                                 
                                                                 <div class="col m3 s3 input-field">
@@ -476,12 +482,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="input-field">
-                                                    <button class="btn invoice-repeat-btn" data-repeater-create type="button">
+                                                    <button  name="AddExpense" class="btn invoice-repeat-btn" data-repeater-create type="button">
                                                         <i class="material-icons left">add</i>
                                                         <span>Add Expense</span>
                                                     </button>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                         <!-- invoice subtotal -->
                                         <div class="invoice-subtotal">
@@ -491,14 +497,14 @@
                                                         <input type="text" placeholder="Amount in Words">
                                                     </div>
                                                     <div class="input-field">
-                                                        <input type="text" placeholder="Remarks">
+                                                        <input type="text" placeholder="Remarks" th:field="*{remarks}">
                                                     </div>
                                                 </div>
                                                 <div class="col xl4 m7 s12 offset-xl3">
                                                     <ul>
                                                         <li class="display-flex justify-content-between">
                                                             <span class="invoice-subtotal-title">Subtotal</span>
-                                                            <h6 class="invoice-subtotal-value">QAR 00.00</h6>
+                                                            <h6 class="invoice-subtotal-value" th:field="*{remarks}"></h6>
                                                         </li>
                                                         
                                                         <li>
@@ -506,7 +512,7 @@
                                                         </li>
                                                         <li class="display-flex justify-content-between">
                                                             <span class="invoice-subtotal-title">Expense Total</span>
-                                                            <h6 class="invoice-subtotal-value">QAR 00.00</h6>
+                                                            <input class="invoice-subtotal-value"  th:text="${totalamount}" >
                                                         </li>
                                                         <li class="display-flex justify-content-between">
                                                             <span class="invoice-subtotal-title">Advance</span>
@@ -529,9 +535,10 @@
                     </section>
                             </div>
                             <div class="modal-footer">
-								<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Save</a>
+								<a th:href="@{/expensevoucher}" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
+                                <button   class="modal-action modal-close waves-effect waves-green btn-flat " name="Saveexpense" >Save</button>
                             </div>
+                           </form>
                         </div>
 						
 						<a class="waves-effect waves-light btn modal-trigger green mb-2 mr-1" href="#expenseexport">Export
@@ -667,17 +674,409 @@
                                        				<td th:text="${expvoucher.account.accountname }"></td>
                                        				<td th:text="${expvoucher.narration.narration }"></td>
                                        				<td th:text="${expvoucher.receiver.receiver_name }"></td>
-                                       				<th:block th:each="expensehead : ${expvoucher.expenses}" >
-                                                    <td  th:text="${expensehead.description}"></td>
+                                  					 <th:block th:each="expense : ${expvoucher.expenses}" >
+                                                    <td  th:text="${expense.description}"></td>
                                                     </th:block>
-                                       				
-                                       				<td th:text="${expvoucher.totalamount }"></td>
+                                                    
+                                                    
                                        				<td th:text="${expvoucher.amount }"></td>
+                                       				<td th:text="${expvoucher.totalamount }"></td>
                                                     <td  th:text="${expvoucher.remarks}" ></td>
-                                                    <td  th:text="${expvoucher.voucherremarks}" ></td>
-                                         			<td><a href="#expenseedit" class="modal-trigger"><i class="material-icons">edit</i></a></td>
-													<td><a href="#verify" class="modal-trigger"><i class="material-icons">refresh</i></a></td>
-													<td><a href="#expensedelete" class="modal-trigger"><i class="material-icons">delete</i></a></td>
+                                                    <td  th:text="${expvoucher.remarks}" ></td>
+                                         			<td><a href="#expenseedit" class="modal-trigger"><i class="material-icons">edit</i></a>
+                                         			
+                                         	        <div id="expenseedit" class="modal" style="width:85%;">
+                                         	        <form action="#" th:action="@{/expensevoucher/update}" th:object="${expensevoucher}" method="POST">
+													<input type="hidden" name="id"  th:value="${expvoucher.id}">
+                                                    <div class="modal-content" >
+                                                     <div id="basic-form" class="card card card-default scrollspy">
+                                                         <section class="invoice-edit-wrapper section">
+                                                           <div class="row">
+                                                                <!-- invoice view page -->
+                                                                  <div class="col xl12 m12 s12">
+                                                                    <div class="card">
+                                                                      <div class="card-content px-36">
+                                                                           <!-- header section -->
+										
+										                                  <div class="row">
+                                                                         <div class="row">
+                                                                         <div class="input-field col s6">
+                                                                             
+                                                                             <select  name="account" th:field="*{account}">
+                                                                                      <option value="" disabled selected>Choose your Account</option>
+                                                                                         <th:block th:each="account : ${listaccount}">
+                                                                                             <option  th:text="${account.accountname}" th:value="${account.id}"></option>
+                                                                                           </th:block>
+                                                      
+                                                                          </select>
+                                                                          <label>Select Petty Cash Account</label>
+                                                                        </div>
+                                                                        </div>
+                                                                       </div>
+										
+										
+                                                                     <div class="row">
+                                                                      <div class="input-field col s6">
+                                                                        <input id="voucher_number" type="text" th:text="${expvoucher.id}" >
+                                                                        <label for="voucher_number" class="">Voucher number</label>
+                                                                      </div>
+                                            
+                                                                      <div class="input-field col s6">
+                                                                        <input type="text" class="datepicker" id="date" name="date" th:text="${expvoucher.datecreation}>
+												                        <label for="date">Date</label>
+                                                                       </div>
+                                                                    </div>
+										
+										                           <div class="row">
+                                                                   <div class="input-field col s6">
+                                                                         <select  name="narration" th:field="*{narration}">
+                                                                               <option value="" disabled selected>Select Narration</option>
+                                                                                  <th:block th:each="narration : ${listnarration}">
+                                                                                       <option  th:text="${narration.narration}" th:value="${narration.id}"></option>
+                                                                                   </th:block>
+                                                                         </select>
+                                                                        <label>Select Narration</label>
+                                                                  </div>
+                                            
+                                                                <div class="input-field col s6">
+                                                                  <select name="receiver" th:field="*{receiver}">
+                                                                         <option value="" disabled selected>Select Receiver</option>
+                                                                                <th:block th:each="receiver : ${listreceiver}">
+                                                                                   <option  th:text="${receiver.receiver_name}" th:value="${receiver.id}"></option>
+                                                                                     </th:block>
+                                                                    </select>
+                                                                   <label>Select Receiver</label>
+                                                               </div>
+                                                              </div>
+                                        
+                                       
+                                                                                           <!-- product details table-->
+                                                                <div class="invoice-product-details mb-3">
+                                                                 <div class="form invoice-item-repeater">
+                                                                   <div data-repeater-list="group-a">
+                                                                    <div class="mb-2" data-repeater-item>
+                                                                            <!-- invoice Titles -->
+                                                                        <div class="row mb-1">
+                                                                          <div class="col s3 m4">
+                                                                            <h6 class="m-0">Expense Head</h6>
+                                                                           </div>
+                                                                          <div class="col s3">
+                                                                            <h6 class="m-0">Remarks</h6>
+                                                                         </div>
+                                                                         <div class="col s3">
+                                                                          <h6 class="m-0">Amount</h6>
+                                                                         </div>
+                                                            
+                                                                         </div>
+                                                                        <div class="invoice-item display-flex mb-1">
+                                                                             <div class="invoice-item-filed row pt-1">
+                                                                               <div class="col s3 m4 input-field">
+                                                                                     <select  name="expenses"    th:field="*{expenses}"  class="invoice-item-select browser-default">
+                                                                                      <th:block   th:each="expensehead : ${listexpensehead}">
+                                                                                       <option  th:text="${expensehead.description}" th:value="${expensehead.id}"></option>
+                                                                                         </th:block>
+                                                                       
+                                                                                       </select>
+                                                                                </div>
+                                                                                 <div class="col m3 s3 input-field">
+                                                                                    <input type="text" placeholder="Remarks" name="remarks" th:text="${expvoucher.remarks}">
+                                                                                 </div>
+                                                                               <div class="col m3 s3 input-field">
+                                                                                      <input type="text" placeholder="QAR 0.00" name="amount" th:text="${expvoucher.amount}">
+                                                                                 </div>
+                                                                
+                                                                                <div class="col m3 s3 input-field">
+                                                                                       <input type="text" class="invoice-item-desc" value="Notes if any">
+                                                                                 </div>
+                                                                
+                                                                            </div>
+                                                                             <div class="invoice-icon display-flex flex-column justify-content-between">
+                                                                                    <span data-repeater-delete class="delete-row-btn">
+                                                                                         <i class="material-icons">clear</i>
+                                                                                      </span>
+
+                                                                             </div>
+                                                                         </div>
+                                                                       </div>
+                                                                     </div>
+                                                                     <div class="input-field">
+                                                                      <button class="btn invoice-repeat-btn" data-repeater-create type="button">
+                                                                          <i class="material-icons left">add</i>
+                                                                            <span>Add Expense</span>
+                                                                     </button>
+                                                                 </div>
+                                                               </div>
+                                                            </div>
+                                                                           <!-- invoice subtotal -->
+                                                          <div class="invoice-subtotal">
+                                                                <div class="row">
+                                                                    <div class="col m5 s12">
+                                                                           <div class="input-field">
+                                                                                 <input type="text" placeholder="Amount in Words">
+                                                                            </div>
+                                                                            <div class="input-field">
+                                                                             <input type="text" placeholder="Remarks" name="remarks" th:text="${expvoucher.remarks}">
+                                                                             </div>
+                                                                       </div>
+                                                                       <div class="col xl4 m7 s12 offset-xl3">
+                                                                           <ul>
+                                                                                  <li class="display-flex justify-content-between">
+                                                                                    <span class="invoice-subtotal-title">Subtotal</span>
+                                                                                    <h6 class="invoice-subtotal-value">QAR 00.00</h6>
+                                                                                   </li>
+                                                        
+                                                                                   <li>
+                                                                                          <div class="divider mt-2 mb-2"></div>
+                                                                                  </li>
+                                                                                  <li class="display-flex justify-content-between">
+                                                                                     <span class="invoice-subtotal-title">Expense Total</span>
+                                                                                     <input class="invoice-subtotal-value" name="totalamount" th:text="${expvoucher.totalamount}">
+                                                                                    </li>
+                                                                                    <li class="display-flex justify-content-between">
+                                                                                    <span class="invoice-subtotal-title">Advance</span>
+                                                                                    <h6 class="invoice-subtotal-value">- QAR 00.00</h6>
+                                                                                    </li>
+                                                                                   <li class="display-flex justify-content-between">
+                                                                                        <span class="invoice-subtotal-title">Balance</span>
+                                                                                        <h6 class="invoice-subtotal-value">QAR 00,000</h6>
+                                                                                    </li>
+                                                        
+                                                                                   </ul>
+                                                                         </div>
+                                                                         </div>
+                                                                 </div>
+                                                                   </div>
+                                                              </div>
+                                                              </div>
+
+                                                             </div>
+                                                          </section>
+                                                      </div>
+                                                        <div class="modal-footer">
+							                        	<button class="modal-action modal-close waves-effect waves-red btn-flat " name="Update">Update</button>
+                                                      <a th:href="@{'expensevoucher'}" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
+                                                      </div>
+                                                   </div>
+						                        </form>
+						                          </div>
+						
+                                         			</td>
+													<td><a href="#verify" class="modal-trigger"><i class="material-icons">refresh</i></a>
+													<div id="verify" class="modal" style="width:85%;">
+													<form action="#" th:action="@{/expensevoucher/verify}" th:object="${expensevoucher}" method="POST">
+													<input type="hidden" name="id"  th:value="${expvoucher.id}">
+                                                                <div class="modal-content" >
+                                                                         <div id="basic-form" class="card card card-default scrollspy">
+                                                                                <section class="invoice-edit-wrapper section">
+                                                                                   <div class="row">
+                                                                                               <!-- invoice view page -->
+                                                                                        <div class="col xl12 m12 s12">
+                                                                                           <div class="card">
+                                                                                             <div class="card-content px-36">
+                                                                                                          <!-- header section -->
+										
+									                                                             	
+                                                                                                      <div class="row">
+                                                                                                           <div class="input-field col s6">
+                                                                                                                 <select  name="account" th:field="*{account}">
+                                                                                                                     <option value="" disabled selected>Choose your Account</option>
+                                                                                                                      <th:block th:each="account : ${listaccount}">
+                                                                                                                        <option  th:text="${account.accountname}" th:value="${account.id}"></option>
+                                                                                                                       </th:block>
+                                                        
+                                                                                                                      </select>
+                                                                                                                     <label>Select Petty Cash Account</label>
+                                                                                                               </div>
+                                                                                                            </div>
+                                                                                                           
+										
+										
+                                                                                                          <div class="row">
+                                                                                                             <div class="input-field col s6">
+                                                                                                                  <input id="voucher_number" type="text" th:text="${expvoucher.id}">
+                                                                                                                  <label for="voucher_number" class="">Voucher number</label>
+                                                                                                                </div>
+                                                                                                             
+                                                                                                               <div class="input-field col s6">
+                                                                                                                   <input type="text" class="datepicker" id="date" name="date" th:text="${expvoucher.datecreation}">
+												                                                                   <label for="date">Date</label>
+                                                                                                                </div>
+                                                                                                           </div>
+										
+										                                                                  <div class="row">
+                                                                                                            <div class="input-field col s6">
+                                                                                                                <select  name="narration" th:field="*{narration}">
+                                                                                                                          <option value="" disabled selected>Select Narration</option>
+                                                                                                                          <th:block th:each="narration : ${listnarration}">
+                                                                                                                           <option  th:text="${narration.narration}" th:value="${narration.id}"></option>
+                                                                                                                          </th:block>
+                                                   
+                                                                                                                 </select>
+                                                                                                                 <label>Select Narration</label>
+                                                                                                             </div>
+                                            
+                                                                                                             <div class="input-field col s6">
+                                                                                                                <select name="receiver" th:field="*{receiver}">
+                                                                                                                      <option value="" disabled selected>Select Receiver</option>
+                                                                                                                       <th:block th:each="receiver : ${listreceiver}">
+                                                                                                                          <option  th:text="${receiver.receiver_name}" th:value="${receiver.id}"></option>
+                                                                                                                        </th:block>
+                                                                                                                </select>
+                                                                                                               <label>Select Receiver</label>
+                                                                                                             </div>
+                                                                                                           </div>
+                                        
+                                       
+                                                                                                         <!-- product details table-->
+                                                                                           <div class="invoice-product-details mb-3">
+                                                                                             <div class="form invoice-item-repeater">
+                                                                                                   <div data-repeater-list="group-a">
+                                                                                                         <div class="mb-2"   data-repeater-item>
+                                                                                                                <!-- invoice Titles -->
+                                                                                                                <div  name="expensehead"class="row mb-1">
+                                                                                                                     <div class="col s3 m4">
+                                                                                                                       <h6 class="m-0">Expense Head</h6>
+                                                                                                                      </div>
+                                                                                                                      <div class="col s3">
+                                                                                                                      <h6 class="m-0">Remarks</h6>
+                                                                                                                      </div>
+                                                                                                                       <div class="col s3">
+                                                                                                                         <h6 class="m-0">Amount</h6>
+                                                                                                                       </div>
+                                                            
+                                                                                                                     </div>
+                                                                                                                   <div class="invoice-item display-flex mb-1">
+                                                                                                                    <div class="invoice-item-filed row pt-1">
+                                                                                                                          <div  class="col s3 m4 input-field">
+                                                                                                                             <select  name="expenses"    th:field="*{expenses}"  class="invoice-item-select browser-default">
+                                                                        
+                                                                                                                                <th:block   th:each="expensehead : ${listexpensehead}">
+                                                                                                                                     <option  th:text="${expensehead.description}" th:value="${expensehead.id}"></option>
+                                                                                                                               </th:block>
+                                                                    
+                                                                       
+                                                                                                                                </select>
+                                                                                                                             </div>
+                                                                                                                        <div class="col m3 s3 input-field">
+                                                                                                                        <input type="text" placeholder="Remarks" name="vremarks" th:text="${expvoucher.voucherremarks}">
+                                                                                                                         </div>
+                                                                                                                          <div class="col m3 s3 input-field">
+                                                                                                                          <input type="text" placeholder="QAR 0.00" name="amount" th:text="${expvoucher.amount}">
+                                                                                                                           </div>
+                                                                
+                                                                                                                           <div class="col m3 s3 input-field">
+                                                                                                                            <input type="text" class="invoice-item-desc" value="Notes if any">
+                                                                                                                              </div>
+                                                                
+                                                                                                                              </div>
+                                                                                                                         <div class="invoice-icon display-flex flex-column justify-content-between">
+                                                                                                                             <span data-repeater-delete class="delete-row-btn"> 
+                                                                                                                               <i class="material-icons">clear</i>
+                                                                                                                              </span>
+
+                                                                                                                         </div>
+                                                                                                                        </div>
+                                                                                                                     </div>
+                                                                                                                  </div>
+                                                                                                                  <div class="input-field">
+                                                                                                                   <button class="btn invoice-repeat-btn" data-repeater-create type="button">
+                                                                                                                    <i class="material-icons left">add</i>
+                                                                                                                       <span>Add Expense</span>
+                                                                                                                   </button>
+                                                                                                                  </div>
+                                                                                                                    </div>
+                                                                                                                    </div>
+                                                                                                                   <!-- invoice subtotal -->
+                                                                                                                 <div class="invoice-subtotal">
+                                                                                                                  <div class="row">
+                                                                                                                <div class="col m5 s12">
+                                                                                                                <div class="input-field">
+                                                                                                                <input type="text" placeholder="Amount in Words">
+                                                                                                                  </div>
+                                                                                                               <div class="input-field">
+                                                                                                              <input type="text" placeholder="Remarks" name="remarks" th:text="${expvoucher.remarks}">
+                                                                                                               </div>
+													                                                            <div class="input-field">
+                                                                                                             <select>
+															                                                <option value="" disabled selected>Select Advance</option>
+															                                              <option value="1">Advance One</option>
+															                                              <option value="2">Advance Two</option>
+															                                                 <option value="3">Advance Three</option>
+														                                                      </select>
+														                                                      <label>Include Advance Amount</label>
+                                                                                                              </div>
+                                                                                                             <div class="file-field input-field">
+														                                                      <div class="btn float-right">
+															                                                   <span>Files</span>
+															                                                        <input type="file">
+														                                                      </div>
+														                                                     <div class="file-path-wrapper">
+															                                                  <input class="file-path validate" type="text">
+														                                                     </div>
+													                                                        </div>
+                                                                                                          </div>
+                                                                                                         <div class="col xl4 m7 s12 offset-xl3">
+                                                                                                                   <ul>
+                                                                                                                       <li class="display-flex justify-content-between">
+                                                                                                                            <span class="invoice-subtotal-title">Subtotal</span>
+                                                                                                                                <h6 class="invoice-subtotal-value">QAR 00.00</h6>
+                                                                                                                        </li>
+                                                        
+                                                                                                                        <li>
+                                                                                                                           <div class="divider mt-2 mb-2"></div>
+                                                                                                                         </li>
+                                                                                                                          <li class="display-flex justify-content-between">
+                                                                                                                            <span class="invoice-subtotal-title">Expense Total</span>
+                                                                                                                                <input type="text" class="invoice-subtotal-value"  name="totalamount" th:text="${expvoucher.totalamount}">
+                                                                                                                          </li>
+                                                                                                                           <li class="display-flex justify-content-between">
+                                                                                                                                <span class="invoice-subtotal-title">Advance</span>
+                                                                                                                                  <h6 class="invoice-subtotal-value">- QAR 00.00</h6>
+                                                                                                                           </li>
+                                                                                                                            <li class="display-flex justify-content-between">
+                                                                                                                                <span class="invoice-subtotal-title">Balance</span>
+                                                                                                                                <h6 class="invoice-subtotal-value">QAR 00,000</h6>
+                                                                                                                          </li>
+                                                        
+                                                                                                                        </ul>
+                                                                                                                    </div>
+                                                                                                                  </div>
+                                                                                                           </div>
+                                                                                                    </div>
+                                                                                                  </div>
+                                                                                         </div>
+                                                                                   </div>
+                                                                           </section>
+                                                                     </div>
+                                                                <div class="modal-footer">
+								                                     <button class="modal-action modal-close waves-effect waves-red btn-flat " name="Verify">Verify</button>
+                                                                        <a th:href="@{'expensevoucher'}" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
+                                                                  </div>
+                                                             </div>
+						                             </form>
+						                            </div>
+						
+						
+						
+													</td>
+													<td><a href="#expensedelete" class="modal-trigger"><i class="material-icons">delete</i></a>
+													  <div id="expensedelete" class="modal">
+													  <form action="#" th:action="@{/expensevoucher/delete}"  method="POST">
+													  <input type="hidden" name="id"  th:value="${expvoucher.id}">
+                                                    	<div class="modal-content">
+                               								 <h4>Delete Expense Record</h4>
+                                								<p class="mt-5">
+																				You are about to delete the expense. This action cannot be undone. Note that you can't delete an expense which is already has verified.
+																</p>
+                            							</div>
+                            							<div class="modal-footer">
+														<a th:href="@{'expensevoucher'}" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
+                                						<button class="modal-action modal-close waves-effect waves-green btn-flat " name="Delete">Delete</button>
+                            							</div>
+                            							</form>
+                       								  </div>
+                       
+													</td>
                                                 </tr>
                                                 <tr>
                                                     <td>300</td>
@@ -702,384 +1101,14 @@
 									
                                 </div>
                             </div>
-							<div id="expenseedit" class="modal" style="width:85%;">
-                            <div class="modal-content" >
-                                <div id="basic-form" class="card card card-default scrollspy">
-                    <section class="invoice-edit-wrapper section">
-                        <div class="row">
-                            <!-- invoice view page -->
-                            <div class="col xl12 m12 s12">
-                                <div class="card">
-                                    <div class="card-content px-36">
-                                        <!-- header section -->
-										
-										<div class="row">
-                                            <div class="row">
-                                                <div class="input-field col s6">
-                                                    <select>
-                                                        <option value="" disabled selected>Choose your Account</option>
-                                                        <option value="1">Convibe Technologies</option>
-                                                        <option value="2">Noaaxim Technologies</option>
-                                                        <option value="3">Ireidius Technologies</option>
-                                                    </select>
-                                                    <label>Select Petty Cash Account</label>
-                                                </div>
-                                            </div>
-                                        </div>
-										
-										
-                                        <div class="row">
-                                            <div class="input-field col s6">
-                                                <input id="voucher_number" type="text">
-                                                <label for="voucher_number" class="">Voucher number</label>
-                                            </div>
-                                            
-                                            <div class="input-field col s6">
-                                                <input type="text" class="datepicker" id="date">
-												<label for="date">Date</label>
-                                            </div>
-                                        </div>
-										
-										<div class="row">
-                                            <div class="input-field col s6">
-                                                <select>
-                                                    <option value="" disabled selected>Select Narration</option>
-                                                    <option value="1">Vehicle Maintanence</option>
-                                                    <option value="2">Cash Purchase</option>
-                                                    <option value="3">Reimbursement</option>
-                                                </select>
-                                                <label>Select Narration</label>
-                                            </div>
-                                            
-                                            <div class="input-field col s6">
-                                                <select>
-                                                    <option value="" disabled selected>Select Receiver</option>
-                                                    <option value="1">Jino Pulickal Mathew</option>
-                                                    <option value="2">Receiver Name Two</option>
-                                                    <option value="3">Receiver Name Three</option>
-                                                </select>
-                                                <label>Select Receiver</label>
-                                            </div>
-                                        </div>
-                                        
-                                       
-                                        <!-- product details table-->
-                                        <div class="invoice-product-details mb-3">
-                                            <form class="form invoice-item-repeater">
-                                                <div data-repeater-list="group-a">
-                                                    <div class="mb-2" data-repeater-item>
-                                                        <!-- invoice Titles -->
-                                                        <div class="row mb-1">
-                                                            <div class="col s3 m4">
-                                                                <h6 class="m-0">Expense Head</h6>
-                                                            </div>
-                                                            <div class="col s3">
-                                                                <h6 class="m-0">Remarks</h6>
-                                                            </div>
-                                                            <div class="col s3">
-                                                                <h6 class="m-0">Amount</h6>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        <div class="invoice-item display-flex mb-1">
-                                                            <div class="invoice-item-filed row pt-1">
-                                                                <div class="col s3 m4 input-field">
-                                                                    <select class="invoice-item-select browser-default">
-                                                                        <option value="1">Fuel</option>
-                                                                        <option value="2">Material Purchase</option>
-                                                                        <option value="3">Vehicle Parts</option>
-                                                                       
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col m3 s3 input-field">
-                                                                    <input type="text" placeholder="Remarks">
-                                                                </div>
-                                                                <div class="col m3 s3 input-field">
-                                                                    <input type="text" placeholder="QAR 0.00">
-                                                                </div>
-                                                                
-                                                                <div class="col m3 s3 input-field">
-                                                                    <input type="text" class="invoice-item-desc" value="Notes if any">
-                                                                </div>
-                                                                
-                                                            </div>
-                                                            <div class="invoice-icon display-flex flex-column justify-content-between">
-                                                                <span data-repeater-delete class="delete-row-btn">
-                                                                    <i class="material-icons">clear</i>
-                                                                </span>
+							
+						
+						
+						
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="input-field">
-                                                    <button class="btn invoice-repeat-btn" data-repeater-create type="button">
-                                                        <i class="material-icons left">add</i>
-                                                        <span>Add Expense</span>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <!-- invoice subtotal -->
-                                        <div class="invoice-subtotal">
-                                            <div class="row">
-                                                <div class="col m5 s12">
-                                                    <div class="input-field">
-                                                        <input type="text" placeholder="Amount in Words">
-                                                    </div>
-                                                    <div class="input-field">
-                                                        <input type="text" placeholder="Remarks">
-                                                    </div>
-                                                </div>
-                                                <div class="col xl4 m7 s12 offset-xl3">
-                                                    <ul>
-                                                        <li class="display-flex justify-content-between">
-                                                            <span class="invoice-subtotal-title">Subtotal</span>
-                                                            <h6 class="invoice-subtotal-value">QAR 00.00</h6>
-                                                        </li>
-                                                        
-                                                        <li>
-                                                            <div class="divider mt-2 mb-2"></div>
-                                                        </li>
-                                                        <li class="display-flex justify-content-between">
-                                                            <span class="invoice-subtotal-title">Expense Total</span>
-                                                            <h6 class="invoice-subtotal-value">QAR 00.00</h6>
-                                                        </li>
-                                                        <li class="display-flex justify-content-between">
-                                                            <span class="invoice-subtotal-title">Advance</span>
-                                                            <h6 class="invoice-subtotal-value">- QAR 00.00</h6>
-                                                        </li>
-                                                        <li class="display-flex justify-content-between">
-                                                            <span class="invoice-subtotal-title">Balance</span>
-                                                            <h6 class="invoice-subtotal-value">QAR 00,000</h6>
-                                                        </li>
-                                                        
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </section>
-                            </div>
-                            <div class="modal-footer">
-								<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Update</a>
-                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
-                            </div>
-                        </div>
+                        
+						 </div>
 						
-						</div>
-						
-						
-						
-						<div id="verify" class="modal" style="width:85%;">
-                            <div class="modal-content" >
-                                <div id="basic-form" class="card card card-default scrollspy">
-                    <section class="invoice-edit-wrapper section">
-                        <div class="row">
-                            <!-- invoice view page -->
-                            <div class="col xl12 m12 s12">
-                                <div class="card">
-                                    <div class="card-content px-36">
-                                        <!-- header section -->
-										
-										<div class="row">
-                                            <div class="row">
-                                                <div class="input-field col s6">
-                                                    <select>
-                                                        <option value="" disabled selected>Choose your Account</option>
-                                                        <option value="1">Convibe Technologies</option>
-                                                        <option value="2">Noaaxim Technologies</option>
-                                                        <option value="3">Ireidius Technologies</option>
-                                                    </select>
-                                                    <label>Select Petty Cash Account</label>
-                                                </div>
-                                            </div>
-                                        </div>
-										
-										
-                                        <div class="row">
-                                            <div class="input-field col s6">
-                                                <input id="voucher_number" type="text">
-                                                <label for="voucher_number" class="">Voucher number</label>
-                                            </div>
-                                            
-                                            <div class="input-field col s6">
-                                                <input type="text" class="datepicker" id="date">
-												<label for="date">Date</label>
-                                            </div>
-                                        </div>
-										
-										<div class="row">
-                                            <div class="input-field col s6">
-                                                <select>
-                                                    <option value="" disabled selected>Select Narration</option>
-                                                    <option value="1">Vehicle Maintanence</option>
-                                                    <option value="2">Cash Purchase</option>
-                                                    <option value="3">Reimbursement</option>
-                                                </select>
-                                                <label>Select Narration</label>
-                                            </div>
-                                            
-                                            <div class="input-field col s6">
-                                                <select>
-                                                    <option value="" disabled selected>Select Receiver</option>
-                                                    <option value="1">Jino Pulickal Mathew</option>
-                                                    <option value="2">Receiver Name Two</option>
-                                                    <option value="3">Receiver Name Three</option>
-                                                </select>
-                                                <label>Select Receiver</label>
-                                            </div>
-                                        </div>
-                                        
-                                       
-                                        <!-- product details table-->
-                                        <div class="invoice-product-details mb-3">
-                                            <form class="form invoice-item-repeater">
-                                                <div data-repeater-list="group-a">
-                                                    <div class="mb-2" data-repeater-item>
-                                                        <!-- invoice Titles -->
-                                                        <div class="row mb-1">
-                                                            <div class="col s3 m4">
-                                                                <h6 class="m-0">Expense Head</h6>
-                                                            </div>
-                                                            <div class="col s3">
-                                                                <h6 class="m-0">Remarks</h6>
-                                                            </div>
-                                                            <div class="col s3">
-                                                                <h6 class="m-0">Amount</h6>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        <div class="invoice-item display-flex mb-1">
-                                                            <div class="invoice-item-filed row pt-1">
-                                                                <div class="col s3 m4 input-field">
-                                                                    <select class="invoice-item-select browser-default">
-                                                                        <option value="1">Fuel</option>
-                                                                        <option value="2">Material Purchase</option>
-                                                                        <option value="3">Vehicle Parts</option>
-                                                                       
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col m3 s3 input-field">
-                                                                    <input type="text" placeholder="Remarks">
-                                                                </div>
-                                                                <div class="col m3 s3 input-field">
-                                                                    <input type="text" placeholder="QAR 0.00">
-                                                                </div>
-                                                                
-                                                                <div class="col m3 s3 input-field">
-                                                                    <input type="text" class="invoice-item-desc" value="Notes if any">
-                                                                </div>
-                                                                
-                                                            </div>
-                                                            <div class="invoice-icon display-flex flex-column justify-content-between">
-                                                                <span data-repeater-delete class="delete-row-btn">
-                                                                    <i class="material-icons">clear</i>
-                                                                </span>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="input-field">
-                                                    <button class="btn invoice-repeat-btn" data-repeater-create type="button">
-                                                        <i class="material-icons left">add</i>
-                                                        <span>Add Expense</span>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <!-- invoice subtotal -->
-                                        <div class="invoice-subtotal">
-                                            <div class="row">
-                                                <div class="col m5 s12">
-                                                    <div class="input-field">
-                                                        <input type="text" placeholder="Amount in Words">
-                                                    </div>
-                                                    <div class="input-field">
-                                                        <input type="text" placeholder="Remarks">
-                                                    </div>
-													<div class="input-field">
-                                                         <select>
-															<option value="" disabled selected>Select Advance</option>
-															<option value="1">Advance One</option>
-															<option value="2">Advance Two</option>
-															<option value="3">Advance Three</option>
-														</select>
-														<label>Include Advance Amount</label>
-                                                    </div>
-                                                    <div class="file-field input-field">
-														<div class="btn float-right">
-															<span>Files</span>
-															<input type="file">
-														</div>
-														<div class="file-path-wrapper">
-															<input class="file-path validate" type="text">
-														</div>
-													</div>
-                                                </div>
-                                                <div class="col xl4 m7 s12 offset-xl3">
-                                                    <ul>
-                                                        <li class="display-flex justify-content-between">
-                                                            <span class="invoice-subtotal-title">Subtotal</span>
-                                                            <h6 class="invoice-subtotal-value">QAR 00.00</h6>
-                                                        </li>
-                                                        
-                                                        <li>
-                                                            <div class="divider mt-2 mb-2"></div>
-                                                        </li>
-                                                        <li class="display-flex justify-content-between">
-                                                            <span class="invoice-subtotal-title">Expense Total</span>
-                                                            <h6 class="invoice-subtotal-value">QAR 00.00</h6>
-                                                        </li>
-                                                        <li class="display-flex justify-content-between">
-                                                            <span class="invoice-subtotal-title">Advance</span>
-                                                            <h6 class="invoice-subtotal-value">- QAR 00.00</h6>
-                                                        </li>
-                                                        <li class="display-flex justify-content-between">
-                                                            <span class="invoice-subtotal-title">Balance</span>
-                                                            <h6 class="invoice-subtotal-value">QAR 00,000</h6>
-                                                        </li>
-                                                        
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </section>
-                            </div>
-                            <div class="modal-footer">
-								<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Verify</a>
-                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
-                            </div>
-                        </div>
-						
-						</div>
-						
-						
-						
-						
-						<div id="expensedelete" class="modal">
-                            <div class="modal-content">
-                                <h4>Delete Expense Record</h4>
-                                <p class="mt-5">
-									You are about to delete the expense. This action cannot be undone. Note that you can't delete an expense which is already has verified.
-								</p>
-                            </div>
-                            <div class="modal-footer">
-								<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Delete</a>
-                            </div>
-                        </div>
-                        </div>
                     </section>
                     <!-- users list ends -->
                 </div>
