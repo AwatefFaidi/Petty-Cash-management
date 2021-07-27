@@ -209,7 +209,8 @@ public class VoucherController {
 
 	public String Saveexpense( @ModelAttribute("expensevoucher") ExpenseVoucher expensevoucher) {
 		expensevoucher.setExpensestatus(VoucherStatus.pending);
-		
+		 
+		expensevoucher.getExpenses().add(new ExpenseHead());
 		expensevoucherRepository.save(expensevoucher);
 		//System.out.println(expensevoucher);
 		return "redirect:/expensevoucher";    

@@ -91,7 +91,7 @@ public class AccountController {
 		
 	}
 	
-	@GetMapping("account/edit/{id}")
+	@GetMapping(path="/{id}")
     public String showUpdateAccount(@PathVariable("id") long id, Model model) {
         Account account = accountRepository.findById( id).get();
         model.addAttribute("account", account);

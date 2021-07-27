@@ -427,7 +427,7 @@
                                         <td  th:text="${user.username}" ></td>
                                           </th:block> 
                                         <td>
-												<a th:href="@{'account/edit/'+${account.id}}"><i class="material-icons mr-1" >edit</i></a>
+												<a th:href="@{'/'+${account.id}}"><i class="material-icons mr-1" >edit</i></a>
 												<a th:href="@{'account/delete/'+${account.id}}"><i class="material-icons">delete</i></a>
 										 </td>
                                         </tr>
