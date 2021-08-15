@@ -424,141 +424,42 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr th:each="appuser : ${userlist}">
+                                            <th:block th:each="appuser : ${userlist}">
+                                                <tr >
                                                     <td></td>
-                                                    <td th:text="${appuser.id}"></td>
-                                                    <td  th:text="${appuser.username}"></td>
-                                  	                 <td th:text="${appuser.name}"></td>
-                                                    <td th:text="${appuser.last_activity}"></td>
-                                                    <td th:text="${appuser.userverified}"></td>
-                                                    <th:block th:each="role : ${appuser.roles}" >
-                                                    <td  th:text="${role.roleName}"></td>
-                                                    </th:block>
-                                                    <td th:text="${appuser.userstatus}"></td>
+                                                    <td >[[${appuser.id}]]</td>
+                                                    <td  ><a href="page-users-view.html">[[${appuser.username}]]</a></td>
+                                  	                 <td >[[${appuser.name}]]</td>
+                                                    <td >[[${appuser.last_activity}]]</td>
+                                                    <td >[[${appuser.userverified}]]</td>
+                                                    
+                                                    <td>  [[${appuser.roles}]]</td>
+                                                    
+                                                     <td>
+                                                     <span  class="chip green lighten-5">
+                                                     <span class="green-text" th:text="${appuser.userstatus}" ></span>
+                                                    </span>
+                                                     </td>
+                                                   <!--  td  th:switch="${appuser.userstatus}">
+                                                    <span th:case="'Active'" class="chip green lighten-5">
+                                                     <span class="green-text" th:text="${appuser.userstatus}" ></span>
+                                                    </span>
+                                                    <span th:case="'Banned'" class="chip red lighten-5">
+                                                    <span class="red-text" th:text="${appuser.userstatus}" ></span>
+                                               
+                                                    </span>
+                                                    <span th:case="'Close'" class="chip orange lighten-5">
+                                                     <span class="orange-text" th:text="${appuser.userstatus}" ></span>
+                                                    </span>
+                                                      
+                                                    
+                                                        </td-->
                                                      <td><a th:href="@{'users/delete/'+${appuser.id}}"><i class="material-icons">delete</i></a></td>
                                                     <td><a th:href="@{'users/edit/'+${appuser.id}}"><i class="material-icons">edit</i></a></td>
                                                     <td><a th:href="@{'users/show/'+${appuser.id}}"><i class="material-icons">remove_red_eye</i></a></td>
                                                 </tr>
+                                                </th:block>
                                                
-                                             
-                                                    <td></td>
-                                                    <td>328</td>
-                                                    <td><a href="page-users-view.html">althea2810</a>
-                                                    </td>
-                                                    <td>Althea Turner</td>
-                                                    <td>28/10/2019</td>
-                                                    <td>Yes</td>
-                                                    <td>User </td>
-                                                    <td><span class="chip green lighten-5">
-                                                            <span class="green-text">Active</span>
-                                                        </span>
-                                                    </td>
-                                                    <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
-                                                    <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>329</td>
-                                                    <td><a href="page-users-view.html">jena2206</a>
-                                                    </td>
-                                                    <td>Jena Schroeder</td>
-                                                    <td>22/06/2019</td>
-                                                    <td>No</td>
-                                                    <td>Staff</td>
-                                                    <td><span class="chip red lighten-5"><span class="red-text">Banned</span></span></td>
-                                                    <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
-                                                    <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>330</td>
-                                                    <td><a href="page-users-view.html">hyacinth2201</a>
-                                                    </td>
-                                                    <td>Hyacinth Maxwell</td>
-                                                    <td>22/01/2019</td>
-                                                    <td>No</td>
-                                                    <td>Staff</td>
-                                                    <td><span class="chip red lighten-5"><span class="red-text">Banned</span></span></td>
-                                                    <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
-                                                    <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>331</td>
-                                                    <td><a href="page-users-view.html">madeson1907</a>
-                                                    </td>
-                                                    <td>Madeson Byers</td>
-                                                    <td>19/07/2020</td>
-                                                    <td>Yes</td>
-                                                    <td>User </td>
-                                                    <td><span class="chip green lighten-5">
-                                                            <span class="green-text">Active</span>
-                                                        </span>
-                                                    </td>
-                                                    <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
-                                                    <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>332</td>
-                                                    <td><a href="page-users-view.html">elmo0707</a>
-                                                    </td>
-                                                    <td>Elmo Tran</td>
-                                                    <td>07/07/2020</td>
-                                                    <td>Yes</td>
-                                                    <td>User </td>
-                                                    <td><span class="chip green lighten-5">
-                                                            <span class="green-text">Active</span>
-                                                        </span>
-                                                    </td>
-                                                    <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
-                                                    <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>333</td>
-                                                    <td><a href="page-users-view.html">shelley0309</a>
-                                                    </td>
-                                                    <td>Shelley Eaton</td>
-                                                    <td>03/09/2019</td>
-                                                    <td>Yes</td>
-                                                    <td>User </td>
-                                                    <td><span class="chip green lighten-5">
-                                                            <span class="green-text">Active</span>
-                                                        </span>
-                                                    </td>
-                                                    <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
-                                                    <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>334</td>
-                                                    <td><a href="page-users-view.html">graham0301</a>
-                                                    </td>
-                                                    <td>Graham Flores</td>
-                                                    <td>03/01/2019</td>
-                                                    <td>No</td>
-                                                    <td>Staff</td>
-                                                    <td><span class="chip red lighten-5"><span class="red-text">Banned</span></span></td>
-                                                    <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
-                                                    <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>335</td>
-                                                    <td><a href="page-users-view.html">erasmus2110</a>
-                                                    </td>
-                                                    <td>Erasmus Mclaughlin</td>
-                                                    <td>21/10/2019</td>
-                                                    <td>Yes</td>
-                                                    <td>User </td>
-                                                    <td><span class="chip green lighten-5">
-                                                            <span class="green-text">Active</span>
-                                                        </span>
-                                                    </td>
-                                                    <td><a href="page-users-edit.html"><i class="material-icons">edit</i></a></td>
-                                                    <td><a href="page-users-view.html"><i class="material-icons">remove_red_eye</i></a></td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>

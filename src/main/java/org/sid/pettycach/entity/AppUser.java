@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @ToString
+@Data @NoArgsConstructor @AllArgsConstructor 
 
 public class AppUser
 {
@@ -20,13 +20,10 @@ public class AppUser
     private Long id;
     @Column(unique = true)
     private String username;
-    //private String status;
-    //private String verified;
     @Enumerated(EnumType.STRING)
     private UserStatus userstatus;
     @Enumerated(EnumType.STRING)
     private Userverified userverified;
-    // @Temporal(TemporalType.TIMESTAMP)
     private Date last_activity;	
     private String name;
     
@@ -47,15 +44,12 @@ public class AppUser
             }
         )
     private Collection<App_Role> roles=new ArrayList<>();
-/* public AppUser(String username, UserStatus userstatus, Userverified userverified, Date  last_activity, String name,Collection<App_Role> roles )
- {
-	 this.username=username;
-	 this.userstatus=userstatus;
-	 this.userverified=userverified;
-	 this.last_activity=last_activity;
-	 this.name=name;
-	 this.roles=roles;
- }*/
+
+	@Override
+	public String toString() {
+		return this.username;
+	}
+
 }
   
   

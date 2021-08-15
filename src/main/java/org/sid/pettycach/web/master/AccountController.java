@@ -6,9 +6,9 @@ import org.sid.pettycach.dao.AppUserRepository;
 import org.sid.pettycach.dao.master.AccountRepository;
 import org.sid.pettycach.dao.transaction.VoucherRepository;
 import org.sid.pettycach.entity.AppUser;
-import org.sid.pettycach.entity.App_Role;
+
 import org.sid.pettycach.entity.master.Account;
-import org.sid.pettycach.entity.master.Narration;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +45,7 @@ public class AccountController {
 	@PostMapping(value= "account/add",  params = "New")
 
 	public String New( @ModelAttribute("account") Account account) {
-		//accountRepository.save(account);
+		
 		return "redirect:/accounts";    
 	}
 	
@@ -65,9 +65,6 @@ public class AccountController {
 	
 	@PostMapping(value="account/add",  params="Cancel")
 	public String cancel( Model model) {
-		
-		Account account = new Account();
-		model.addAttribute("account",account );
 	    return "redirect:/accounts";
 	}
 	
@@ -75,7 +72,7 @@ public class AccountController {
 	public String deleteaccount(@PathVariable("id")long id)
 	{ 
 		Account account= accountRepository.findById(id).get(); 
-	    account.getUsers().removeAll(account.getUsers());
+	    //account.getUsers().removeAll(account.getUsers());
 		if (account != voucherRepository.findaccount(id))
         {
       	

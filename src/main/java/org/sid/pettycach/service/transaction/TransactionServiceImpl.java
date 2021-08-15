@@ -14,6 +14,7 @@ import org.sid.pettycach.entity.master.ExpenseHead;
 import org.sid.pettycach.entity.master.Narration;
 import org.sid.pettycach.entity.master.Receivers;
 import org.sid.pettycach.entity.transaction.AdvanceVoucher;
+import org.sid.pettycach.entity.transaction.ExpenseDetails;
 import org.sid.pettycach.entity.transaction.ExpenseVoucher;
 import org.sid.pettycach.entity.transaction.ReceiptVoucher;
 
@@ -114,18 +115,18 @@ public class TransactionServiceImpl implements TransactionService {
 		receiptvoucherRepository.save(receiptvoucher);
 	}
 	
-	public void updateexpense(Long  id,Date date, double amount,double totalamount, String remarks, String voucherremarks, Account account, Receivers receiver, Narration narration,ExpenseHead expensehead)
+	public void updateexpense(Long  id,Date date, double amount,double totalamount, String remarks, String voucherremarks, Account account, Receivers receiver, Narration narration,ExpenseDetails expensehead)
 	{
 		ExpenseVoucher expensevoucher = new ExpenseVoucher ();
 		expensevoucher =expensevoucherRepository.findById(id).get();
 		expensevoucher.setDatecreation(date);
 		expensevoucher.setAccount(account);
-		expensevoucher.getExpenses().add(expensehead);
+		//expensevoucher.getDetails().add(expensehead);
 		//expensevoucher.setExpenses(expensehead);
 		expensevoucher.setNarration(narration);
 		expensevoucher.setReceiver(receiver);
 		expensevoucher.setTotalamount(totalamount);
-		expensevoucher.setVoucherremarks(voucherremarks);
+		//expensevoucher.setVoucherremarks(voucherremarks);
 		expensevoucher.setAmount(amount);
 		expensevoucher.setRemarks(remarks);
 		expensevoucher.setExpensestatus(VoucherStatus.verified);

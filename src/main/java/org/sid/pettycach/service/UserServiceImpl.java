@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public AppUser saveUser(String username, String password, String confirmedPassword) {
 		AppUser  user=appUserRepository.findByUsername(username);
-        System.out.println(user);
+       // System.out.println(user);
         if(user!=null) throw new RuntimeException("User already exists");
         if(!password.equals(confirmedPassword)) throw new RuntimeException("Please confirm your password");
         AppUser appUser=new AppUser();
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         appUser.setPassword(bCryptPasswordEncoder.encode(password));
         appUserRepository.save(appUser);
         addRoleToUser(username,"ADMIN");
-        System.out.println(appUser);
+        //System.out.println(appUser);
         return appUser;
 	}
 	
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public AppUser savenewuser(String username,String status,String name, String verified,Date last_activity,String password, String confirmedPassword) {
 		AppUser  user=appUserRepository.findByUsername(username);
-        System.out.println(user);
+        //System.out.println(user);
         if(user!=null) throw new RuntimeException("User already exists");
         if(!password.equals(confirmedPassword)) throw new RuntimeException("Please confirm your password");
         AppUser appUser=new AppUser();
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
         appUser.setPassword(bCryptPasswordEncoder.encode(password));
         appUserRepository.save(appUser);
         addRoleToUser(username,"USER");
-        System.out.println(appUser);
+        //System.out.println(appUser);
         return appUser;
 	}
 	

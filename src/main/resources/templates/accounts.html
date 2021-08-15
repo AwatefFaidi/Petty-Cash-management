@@ -135,15 +135,15 @@
                         </li>
                         <li><a class="dropdown-menu" href="Javascript:void(0)" data-target="PageDropdown"><i class="material-icons">content_paste</i><span><span class="dropdown-title">Reports</span><i class="material-icons right">keyboard_arrow_down</i></span></a>
                             <ul class="dropdown-content dropdown-horizontal-list" id="PageDropdown">
-                                <li data-menu=""><a href="runningbalance.html"><span>Running Balance</span></a>
+                                <li data-menu=""><a th:href="@{'runningbalance'}"><span>Running Balance</span></a>
                                 </li>
-                                <li data-menu=""><a href="headwise.html"><span>Headwise Report</span></a>
+                                <li data-menu=""><a th:href="@{'headwise'}"><span>Headwise Report</span></a>
                                 </li>
-                                <li data-menu=""><a href="monthwise.html"><span>Monthwise Report</span></a>
+                                <li data-menu=""><a th:href="@{'monthwise'}"><span>Monthwise Report</span></a>
                                 </li>
-                                <li data-menu=""><a href="accountwise.html"><span>Accountwise Report</span></a>
+                                <li data-menu=""><a th:href="@{'accountwise'}"><span>Accountwise Report</span></a>
                                 </li>
-                                <li data-menu=""><a href="quickbook.html"><span>Quickbook Report</span></a>
+                                <li data-menu=""><a th:href="@{'quickbook'}"><span>Quickbook Report</span></a>
                                 </li>
                             </ul>
                         </li>
@@ -296,13 +296,13 @@
             <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="Javascript:void(0)"><i class="material-icons">content_paste</i><span class="menu-title">Reports</span></a>
                 <div class="collapsible-body">
                     <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        <li><a href="runningbalance.html"><i class="material-icons">radio_button_unchecked</i><span>Running Balance</span></a>
+                        <li><a href="runningbalance'}"><i class="material-icons">radio_button_unchecked</i><span>Running Balance</span></a>
                         </li>
-                        <li><a href="headwise.html"><i class="material-icons">radio_button_unchecked</i><span>Headwise Report</span></a>
+                        <li><a th:href="@{'headwise'}"><i class="material-icons">radio_button_unchecked</i><span>Headwise Report</span></a>
                         </li>
-                        <li><a href="monthwise.html"><i class="material-icons">radio_button_unchecked</i><span>Monthwise Report</span></a>
+                        <li><a th:href="@{'monthwise'}"><i class="material-icons">radio_button_unchecked</i><span>Monthwise Report</span></a>
                         </li>
-                        <li><a href="accountwise.html"><i class="material-icons">radio_button_unchecked</i><span>Accountwise Report</span></a>
+                        <li><a th:href="@{'accountwise'}"><i class="material-icons">radio_button_unchecked</i><span>Accountwise Report</span></a>
                         </li>
                         <li><a href="quickbook.html"><i class="material-icons">radio_button_unchecked</i><span>Quickbook Report</span></a>
                         </li>

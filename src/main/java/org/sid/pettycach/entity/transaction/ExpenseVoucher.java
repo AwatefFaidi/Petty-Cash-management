@@ -19,18 +19,20 @@ import lombok.ToString;
 @PrimaryKeyJoinColumn(name = "EV_id")
 @Data @NoArgsConstructor @AllArgsConstructor @ToString
 public class ExpenseVoucher extends Voucher{
+	
 	@Enumerated(EnumType.STRING)
     private VoucherStatus expensestatus;
-	private double totalamount;
-	
 	private String voucherremarks;
-	
+	private Double voucheramount;
+	private double totalamount;
 	@OneToOne  
 	private Narration narration;
 	
 	@OneToOne  
 	private  Receivers receiver;  
 	
+	/*@OneToMany
+	private Collection <ExpenseDetails> details; */
 	@OneToMany
 	private Collection <ExpenseHead> expenses; 
 

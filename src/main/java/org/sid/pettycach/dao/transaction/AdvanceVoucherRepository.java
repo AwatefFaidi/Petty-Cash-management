@@ -15,4 +15,8 @@ public interface AdvanceVoucherRepository extends JpaRepository<AdvanceVoucher,L
 	@Query("select receiver from AdvanceVoucher adv where  adv.receiver.id=:x")
 	public Receivers  findreceiver(@Param("x")long id );
 	
+	@Query("select sum(amount) from AdvanceVoucher adv where  adv.account.id=:x")
+	public 	Double  TotalAdvance(@Param("x")long id );
+	
+	
 }

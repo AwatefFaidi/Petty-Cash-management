@@ -12,11 +12,20 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @ToString
+@Data @NoArgsConstructor @AllArgsConstructor 
 public class ExpenseHead {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private Long id;
 	 private String description;
+	public ExpenseHead(String description) {
+		super();
+		this.description = description;
+	}
+	@Override
+	public String toString() {
+		return this.description;
+	}
+	
 
 }

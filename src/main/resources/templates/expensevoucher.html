@@ -140,13 +140,13 @@
                         </li>
                         <li><a class="dropdown-menu" href="Javascript:void(0)" data-target="PageDropdown"><i class="material-icons">content_paste</i><span><span class="dropdown-title">Reports</span><i class="material-icons right">keyboard_arrow_down</i></span></a>
                             <ul class="dropdown-content dropdown-horizontal-list" id="PageDropdown">
-                                <li data-menu=""><a href="runningbalance.html"><span>Running Balance</span></a>
+                                <li data-menu=""><a th:href="@{'runningbalance'}"><span>Running Balance</span></a>
                                 </li>
-                                <li data-menu=""><a href="headwise.html"><span>Headwise Report</span></a>
+                                <li data-menu=""><a th:href="@{'headwise'}"><span>Headwise Report</span></a>
                                 </li>
-                                <li data-menu=""><a href="monthwise.html"><span>Monthwise Report</span></a>
+                                <li data-menu=""><a th:href="@{'monthwise'}"><span>Monthwise Report</span></a>
                                 </li>
-                                <li data-menu=""><a href="accountwise.html"><span>Accountwise Report</span></a>
+                                <li data-menu=""><a th:href="@{'accountwise'}"><span>Accountwise Report</span></a>
                                 </li>
                                 <li data-menu=""><a href="quickbook.html"><span>Quickbook Report</span></a>
                                 </li>
@@ -301,13 +301,13 @@
             <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="Javascript:void(0)"><i class="material-icons">content_paste</i><span class="menu-title">Reports</span></a>
                 <div class="collapsible-body">
                     <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        <li><a href="runningbalance.html"><i class="material-icons">radio_button_unchecked</i><span>Running Balance</span></a>
+                        <li><a th:href="@{'runningbalance'}"><i class="material-icons">radio_button_unchecked</i><span>Running Balance</span></a>
                         </li>
-                        <li><a href="headwise.html"><i class="material-icons">radio_button_unchecked</i><span>Headwise Report</span></a>
+                        <li><a th:href="@{'headwise'}"><i class="material-icons">radio_button_unchecked</i><span>Headwise Report</span></a>
                         </li>
-                        <li><a href="monthwise.html"><i class="material-icons">radio_button_unchecked</i><span>Monthwise Report</span></a>
+                        <li><a th:href="@{'monthwise'}"><i class="material-icons">radio_button_unchecked</i><span>Monthwise Report</span></a>
                         </li>
-                        <li><a href="accountwise.html"><i class="material-icons">radio_button_unchecked</i><span>Accountwise Report</span></a>
+                        <li><a th:href="@{'accountwise'}"><i class="material-icons">radio_button_unchecked</i><span>Accountwise Report</span></a>
                         </li>
                         <li><a href="quickbook.html"><i class="material-icons">radio_button_unchecked</i><span>Quickbook Report</span></a>
                         </li>
@@ -362,12 +362,12 @@
 						
 					</div>
                     <div class="section" style="text-align: center;">
-						<a class="waves-effect waves-light btn modal-trigger cyan mb-2 mr-1" href="#newexpense">New
+						<a id="btnAdd" class="waves-effect waves-light btn modal-trigger cyan mb-2 mr-1" href="#newexpense">New
 							<i class="material-icons left">add</i>
 						</a>
 						
 						<div id="newexpense" class="modal"  style="width:85%;">
-						<form action="#" th:action="@{/expensevoucher/add}" th:object="${expensevoucher}" method="POST">
+						<form class="repeater" th:action="@{/expensevoucher/add}" th:object="${expensevoucher}" method="POST">
                           
                             <div class="modal-content">
                     <section class="invoice-edit-wrapper section">
@@ -395,12 +395,12 @@
 										
                                         <div class="row">
                                             <div class="input-field col s6">
-                                                <input id="voucher_number" type="text" th:field="*{id}">
+                                                <input id="voucher_number" name="id" type="text" >
                                                 <label for="voucher_number" class="">Voucher number</label>
                                             </div>
                                             
                                             <div class="input-field col s6">
-                                                <input type="text" class="datepicker" id="date" th:field="*{datecreation}">
+                                                <input type="text" class="datepicker" id="date" name="datecreation">
 												<label for="date">Date</label>
                                             </div>
                                         </div>
@@ -432,9 +432,9 @@
                                        
                                         <!-- product details table-->
                                         <div class="invoice-product-details mb-3">
-                                            <div id="expenses"  class="form invoice-item-repeater">
+                                            <div id="expense"  class="form mt-repeater invoice-item-repeater">
                                                 <div   data-repeater-list="group-a">
-                                                    <div class="mb-2" data-repeater-item>
+                                                    <div class="mb-2 r" data-repeater-item>
                                                         <!-- invoice Titles -->
                                                         <div class="row mb-1">
                                                             <div  class="col s3 m4">
@@ -452,7 +452,7 @@
                                                             <div class="invoice-item-filed row pt-1">
                                                                 <div class="col s3 m4 input-field">
                                                                 
-                                                                    <select   name="expenses" th:field="*{expenses}"  class="invoice-item-select browser-default">
+                                                                    <select  id="expenses"  name="expenses" th:field="*{expenses}"  class="invoice-item-select browser-default">
                                                                         
                                                                         <th:block th:each="expensehead : ${listexpensehead}">
                                                                         <option  th:text="${expensehead.description}" th:value="${expensehead.id}"></option>
@@ -461,10 +461,10 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="col m3 s3 input-field">
-                                                                    <input type="text" placeholder="Remarks"  name="vremarks" th:field="*{voucherremarks}">
+                                                                    <input type="text" placeholder="Remarks"   id ="voucherremarks"  th:field="*{voucherremarks}" name="voucherremarks" >
                                                                 </div>
                                                                 <div class="col m3 s3 input-field">
-                                                                    <input type="text"  name="amount" placeholder="QAR 0.00" th:field="*{amount}">
+                                                                    <input type="text" id="voucheramount" name="voucheramount"  th:field="*{voucheramount}" placeholder="QAR 0.00" >
                                                                 </div>
                                                                 
                                                                 <div class="col m3 s3 input-field">
@@ -504,7 +504,7 @@
                                                     <ul>
                                                         <li class="display-flex justify-content-between">
                                                             <span class="invoice-subtotal-title">Subtotal</span>
-                                                            <h6 class="invoice-subtotal-value" th:field="*{remarks}"></h6>
+                                                            <h6 class="invoice-subtotal-value" ></h6>
                                                         </li>
                                                         
                                                         <li>
@@ -512,7 +512,7 @@
                                                         </li>
                                                         <li class="display-flex justify-content-between">
                                                             <span class="invoice-subtotal-title">Expense Total</span>
-                                                            <input class="invoice-subtotal-value"  th:text="${totalamount}" >
+                                                            <input class="invoice-subtotal-value" th:field="*{totalamount}"  >
                                                         </li>
                                                         <li class="display-flex justify-content-between">
                                                             <span class="invoice-subtotal-title">Advance</span>
@@ -536,7 +536,7 @@
                             </div>
                             <div class="modal-footer">
 								<a th:href="@{/expensevoucher}" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-                                <button   class="modal-action modal-close waves-effect waves-green btn-flat " name="Saveexpense" >Save</button>
+                                <button   class="modal-action modal-close waves-effect waves-green btn-flat "  id="Saveexpense" name="Saveexpense" type="submit" >Save</button>
                             </div>
                            </form>
                         </div>
@@ -674,15 +674,19 @@
                                        				<td th:text="${expvoucher.account.accountname }"></td>
                                        				<td th:text="${expvoucher.narration.narration }"></td>
                                        				<td th:text="${expvoucher.receiver.receiver_name }"></td>
-                                  					 <th:block th:each="expense : ${expvoucher.expenses}" >
-                                                    <td  th:text="${expense.description}"></td>
-                                                    </th:block>
+                                  					 
+                                                    <td  th:text="${expvoucher.expenses}"></td>
                                                     
                                                     
-                                       				<td th:text="${expvoucher.amount }"></td>
+                                                    
+                                       				<td th:text="${expvoucher.voucheramount }"></td>
+                                       				
                                        				<td th:text="${expvoucher.totalamount }"></td>
                                                     <td  th:text="${expvoucher.remarks}" ></td>
-                                                    <td  th:text="${expvoucher.remarks}" ></td>
+                                                    
+                                                    <td  th:text="${expvoucher.voucherremarks}"></td>
+                                                    
+                                                    
                                          			<td><a href="#expenseedit" class="modal-trigger"><i class="material-icons">edit</i></a>
                                          			
                                          	        <div id="expenseedit" class="modal" style="width:85%;">
@@ -893,12 +897,12 @@
 										
                                                                                                           <div class="row">
                                                                                                              <div class="input-field col s6">
-                                                                                                                  <input id="voucher_number" type="text" th:text="${expvoucher.id}">
+                                                                                                                  <input id="voucher_number" type="text" th:value="${expvoucher.id}">
                                                                                                                   <label for="voucher_number" class="">Voucher number</label>
                                                                                                                 </div>
                                                                                                              
                                                                                                                <div class="input-field col s6">
-                                                                                                                   <input type="text" class="datepicker" id="date" name="date" th:text="${expvoucher.datecreation}">
+                                                                                                                   <input type="text" class="datepicker" id="date" name="date" th:value="${expvoucher.datecreation}">
 												                                                                   <label for="date">Date</label>
                                                                                                                 </div>
                                                                                                            </div>
@@ -958,10 +962,10 @@
                                                                                                                                 </select>
                                                                                                                              </div>
                                                                                                                         <div class="col m3 s3 input-field">
-                                                                                                                        <input type="text" placeholder="Remarks" name="vremarks" th:text="${expvoucher.voucherremarks}">
+                                                                                                                        <input type="text" placeholder="Remarks"    th:field="*{voucherremarks}" th:text="${expvoucher.voucherremarks}">
                                                                                                                          </div>
                                                                                                                           <div class="col m3 s3 input-field">
-                                                                                                                          <input type="text" placeholder="QAR 0.00" name="amount" th:text="${expvoucher.amount}">
+                                                                                                                          <input type="text" placeholder="QAR 0.00"  th:field="*{voucheramount}" th:text="${expvoucher.amount}">
                                                                                                                            </div>
                                                                 
                                                                                                                            <div class="col m3 s3 input-field">
@@ -994,7 +998,7 @@
                                                                                                                 <input type="text" placeholder="Amount in Words">
                                                                                                                   </div>
                                                                                                                <div class="input-field">
-                                                                                                              <input type="text" placeholder="Remarks" name="remarks" th:text="${expvoucher.remarks}">
+                                                                                                              <input type="text" placeholder="Remarks" name="remarks" th:value="${expvoucher.remarks}">
                                                                                                                </div>
 													                                                            <div class="input-field">
                                                                                                              <select>
@@ -1027,7 +1031,7 @@
                                                                                                                          </li>
                                                                                                                           <li class="display-flex justify-content-between">
                                                                                                                             <span class="invoice-subtotal-title">Expense Total</span>
-                                                                                                                                <input type="text" class="invoice-subtotal-value"  name="totalamount" th:text="${expvoucher.totalamount}">
+                                                                                                                                <input type="text" class="invoice-subtotal-value"  name="totalamount" th:value="${expvoucher.totalamount}">
                                                                                                                           </li>
                                                                                                                            <li class="display-flex justify-content-between">
                                                                                                                                 <span class="invoice-subtotal-title">Advance</span>
@@ -1128,6 +1132,7 @@
 
     <!-- END: Footer-->
     <!-- BEGIN VENDOR JS-->
+   
     <script src="app-assets/js/vendors.min.js"></script>
 	<script src="app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
 	<script src="app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>

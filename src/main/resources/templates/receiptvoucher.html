@@ -138,13 +138,13 @@
                         </li>
                         <li><a class="dropdown-menu" href="Javascript:void(0)" data-target="PageDropdown"><i class="material-icons">content_paste</i><span><span class="dropdown-title">Reports</span><i class="material-icons right">keyboard_arrow_down</i></span></a>
                             <ul class="dropdown-content dropdown-horizontal-list" id="PageDropdown">
-                                <li data-menu=""><a href="runningbalance.html"><span>Running Balance</span></a>
+                                <li data-menu=""><a th:href="@{'runningbalance'}"><span>Running Balance</span></a>
                                 </li>
-                                <li data-menu=""><a href="headwise.html"><span>Headwise Report</span></a>
+                                <li data-menu=""><a th:href="@{'headwise'}"><span>Headwise Report</span></a>
                                 </li>
-                                <li data-menu=""><a href="monthwise.html"><span>Monthwise Report</span></a>
+                                <li data-menu=""><a th:href="@{'monthwise'}"><span>Monthwise Report</span></a>
                                 </li>
-                                <li data-menu=""><a href="accountwise.html"><span>Accountwise Report</span></a>
+                                <li data-menu=""><a th:href="@{'accountwise'}"><span>Accountwise Report</span></a>
                                 </li>
                                 <li data-menu=""><a href="quickbook.html"><span>Quickbook Report</span></a>
                                 </li>
@@ -299,13 +299,13 @@
             <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="Javascript:void(0)"><i class="material-icons">content_paste</i><span class="menu-title">Reports</span></a>
                 <div class="collapsible-body">
                     <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        <li><a href="runningbalance.html"><i class="material-icons">radio_button_unchecked</i><span>Running Balance</span></a>
+                        <li><a th:href="@{'runningbalance'}"><i class="material-icons">radio_button_unchecked</i><span>Running Balance</span></a>
                         </li>
-                        <li><a href="headwise.html"><i class="material-icons">radio_button_unchecked</i><span>Headwise Report</span></a>
+                        <li><a th:href="@{'headwise'}"><i class="material-icons">radio_button_unchecked</i><span>Headwise Report</span></a>
                         </li>
-                        <li><a href="monthwise.html"><i class="material-icons">radio_button_unchecked</i><span>Monthwise Report</span></a>
+                        <li><a th:href="@{'monthwise'}"><i class="material-icons">radio_button_unchecked</i><span>Monthwise Report</span></a>
                         </li>
-                        <li><a href="accountwise.html"><i class="material-icons">radio_button_unchecked</i><span>Accountwise Report</span></a>
+                        <li><a th:href="@{'accountwise'}"><i class="material-icons">radio_button_unchecked</i><span>Accountwise Report</span></a>
                         </li>
                         <li><a href="quickbook.html"><i class="material-icons">radio_button_unchecked</i><span>Quickbook Report</span></a>
                         </li>
@@ -553,25 +553,25 @@
                                                                  		 <div class="row">
                                                 								<div class="input-field col s12">
                                                 
-                                                   									 <input  th:text="${rvoucher.account.openingbalance}"  id="current_balance" type="text" class="validate valid">
+                                                   									 <input  th:value="${rvoucher.account.openingbalance}"  id="current_balance" type="text" class="validate valid">
                                                                                      <label class="active" for="current_balance">Current Balance</label>
                                                									  </div>
                                            									 </div>
 											                             <div class="row">
                                                                            <div class="input-field col s12">
-                                                                            <input  name="id" id="voucher_number" th:text="${rvoucher.id}"  type="text">
+                                                                            <input   name="id" id="voucher_number_verf" th:value="${rvoucher.id}"  type="text">
                                                                             <label for="voucher_number" class="">Voucher number</label>
                                                                            </div>
                                                                           </div>
 											                             <div class="row">
                                                                           <div class="input-field col s12">
-                                                                            <input name="date" type="text" class="datepicker"  th:text="${rvoucher.datecreation}"  id="date">
+                                                                            <input name="date" type="text" class="datepicker"  th:value="${rvoucher.datecreation}"  id="dateverf">
 													                        <label for="date">Date</label>
                                                                           </div>
                                                                          </div>
                                                                          <div class="row">
                                                                             <div class="input-field col s12">
-                                                                               <input id="amount" type="text" th:text="${rvoucher.amount}" name="amount">
+                                                                               <input id="amountver" type="text" th:value="${rvoucher.amount}" name="amount">
                                                                                <label for="amount" class="">Amount (QAR)</label>
                                                                              </div>
                                                                            </div>
@@ -602,14 +602,7 @@
                            						   	     </form>
                        							        </div>
                                        				</td>
-												      <td>
-                                       				   
-												     <div >
-												      <a     href="#receiptedit"  class="modal-trigger "  ><i class="material-icons mr-1" >edit</i></a>
-												      </div>
-												      <div th:if="${rvoucher.receiptstatus == 'verified'}">
-												      <a    href="#"  class="modal-trigger "  ><i class="material-icons mr-1" >edit</i></a>
-												      </div>
+                                                     <td> <a href="#receiptedit"  class=" modal-trigger "  ><i class="material-icons mr-1" >edit</i></a>
 												       <div   id="receiptedit" class="modal">
 															<form action="#" th:action="@{/receipt/update}" th:object="${receiptvoucher}" method="POST">
                             									<input type="hidden" name="id"  th:value="${rvoucher.id}">
@@ -620,7 +613,7 @@
                                       
                                            								 <div class="row">
                                                 							<div class="input-field col s12">
-                                                								 <select name="account" th:field="*{account}" class="form-control" id="account_list">
+                                                								 <select name="account" th:field="*{account}" class="form-control" id="txtAccountEdit">
                                                    									 <option value="" disabled selected>All</option>
                                                     									<th:block th:each="account : ${listaccount}">
                                                      										 <option  th:text="${account.accountname}" th:value="${account.id}"></option>
@@ -634,25 +627,25 @@
                                                                  		 <div class="row">
                                                 								<div class="input-field col s12">
                                                 
-                                                   									 <input  th:text="${rvoucher.account.openingbalance}"  id="current_balance" type="text" class="validate valid">
+                                                   									 <input   th:value="${rvoucher.account.openingbalance}" id="current_balance" type="text" class="validate valid">
                                                                                      <label class="active" for="current_balance">Current Balance</label>
                                                									  </div>
                                            									 </div>
 											                             <div class="row">
                                                                            <div class="input-field col s12">
-                                                                            <input  name="id" id="voucher_number" th:text="${rvoucher.id}"  type="text">
+                                                                            <input   id="voucher_number" th:value="${rvoucher.id}"  type="text">
                                                                             <label for="voucher_number" class="">Voucher number</label>
                                                                            </div>
                                                                           </div>
 											                             <div class="row">
                                                                           <div class="input-field col s12">
-                                                                            <input name="date" type="text" class="datepicker"  th:text="${rvoucher.datecreation}"  id="date">
+                                                                            <input name="datecreation" type="text" class="datepicker"  th:value="${rvoucher.datecreation}"  id="date">
 													                        <label for="date">Date</label>
                                                                           </div>
                                                                          </div>
                                                                          <div class="row">
                                                                             <div class="input-field col s12">
-                                                                               <input id="amount" type="text" th:text="${rvoucher.amount}" name="amount">
+                                                                               <input id="amountedit" type="text" th:value="${rvoucher.amount}" name="amount">
                                                                                <label for="amount" class="">Amount (QAR)</label>
                                                                              </div>
                                                                            </div>
@@ -666,7 +659,7 @@
 											
                                                                           <div class="row">
                                                                             <div class="input-field col s12">
-                                                                              <textarea     class="materialize-textarea" th:text="${rvoucher.remarks}" name="remarks"></textarea>
+                                                                              <textarea   id="remarksedit"  class="materialize-textarea"  th:text="${rvoucher.remarks}" name="remarks"></textarea>
                                                                                <label for="remarks">Remarks</label>
                                                                             </div>
                                                                            </div>
@@ -678,10 +671,12 @@
                                                               </div>
                                                              <div class="modal-footer">
 								                               <a th:href="@{'receiptvoucher'}" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-                                                               <button   class="modal-action modal-close waves-effect waves-green btn-flat " value="Save" name="Save">Save</button>
+                                                               <button    class="modal-action modal-close waves-effect waves-green btn-flat " value="Save" name="Save">Save</button>
                                                              </div>
                                                             </form>
                                                          </div>
+                  
+												      
 						                            </td>
 												    <td>
 												     <a  href="#receiptdelete" class="modal-trigger"><i class="material-icons">delete</i></a>
@@ -723,7 +718,7 @@
 									
                                 </div>
                             </div>
-                        </div>
+                                  </div>
                     </section>
                     <!-- users list ends -->
                 </div>
@@ -744,6 +739,8 @@
     <!-- END: Footer-->
     <!-- BEGIN VENDOR JS-->
     <script src="app-assets/js/vendors.min.js"></script>
+     
+
 	<script src="app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
 	<script src="app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
     <!-- BEGIN VENDOR JS-->

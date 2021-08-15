@@ -23,14 +23,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 
 @SpringBootApplication
+
 public class PettyCashApplication  extends SpringBootServletInitializer  {
-	//@Autowired
-	//private AccountRepository accountRepository;
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(PettyCashApplication.class, args);
@@ -51,18 +52,14 @@ public class PettyCashApplication  extends SpringBootServletInitializer  {
         	userService.saveUser("admin","1234","1234");
            userService.saveUser("user1","1234","1234");
            userService.addRoleToUser("user1","USER");
-           List <AppUser> listusers= appuserRepository.findAll();
-           //Collection<AppUser> users= appuserRepository.findAll();
-           System.out.println(listusers);
-           Account ac =new Account(null,"Convibe",5000.00,listusers);
-           System.out.println(ac);
-            //accountRepository.save(new Account(null,"Convibe",5000.00,users));
+           
+           /*
            
             narrationRepository.save(new Narration(null,"Vehicle Maintanence"));
             narrationService.saveNarration( "House Maintanence");
             expenseheadRepository.save(new ExpenseHead(null, "Fuel"));
-            receiversRepository.save(new Receivers(null, "Jino Pulickal Mathew"));
-            //receiptvoucherRepository.save(new ReceiptVoucher(null,2000.00,"ADD",ac));
+            receiversRepository.save(new Receivers(null, "Jino Pulickal Mathew"));*/
+            
             
         };
     }

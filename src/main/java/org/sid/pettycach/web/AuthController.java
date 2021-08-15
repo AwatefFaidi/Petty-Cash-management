@@ -52,7 +52,7 @@ public class AuthController {
 	        /*if (bindingResult.hasErrors()) {
 	            return "registration";
 	        }*/
-	        System.out.println(userregistration);
+	        //System.out.println(userregistration);
 	        userService.saveUser(
 	        		userregistration.getUsername(),userregistration.getPassword(),userregistration.getPasswordConfirm());
 	    	  

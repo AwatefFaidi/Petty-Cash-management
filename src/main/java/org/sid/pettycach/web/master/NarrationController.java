@@ -52,7 +52,16 @@ public class NarrationController {
 	}
 	
 	
-	
+	@GetMapping("/new")
+	public String create(Model model) {
+		
+
+	    //for create new narration
+	    Narration  narration = new Narration();
+		model.addAttribute("narration", narration);
+	    
+	    return "narration";
+	}
 	
 	@PostMapping(value= "/add",  params = "Save")
 
@@ -76,7 +85,7 @@ public class NarrationController {
 	}
 	
 	
-	@PostMapping(value= "/add",  params = "Update")
+	@PostMapping(value= "/update",  params = "Update")
 
 	public String Update( @ModelAttribute("nar") Narration nar) {
 		narrationRespository.save(nar);
@@ -107,18 +116,12 @@ public class NarrationController {
     public String showUpdateNarration(@PathVariable("id") int id, Model model) {
         Narration narration = narrationRespository.findById((long) id).orElse(null);
           model.addAttribute("narration", narration);
-          //return "narration_1";
+          //return "narration";
         return "update_narration";
     }
 	
 	
-	@PostMapping("/update/{id}")
-	public String updateNarration(@PathVariable("id") long id,   
-			@ModelAttribute("nar") Narration nar) {
-		narrationRespository.save(nar);
-		return "redirect:/narration";
-        
-	}
+	
 	
 	@PostMapping(value= "narration/update",  params = "Save")
 

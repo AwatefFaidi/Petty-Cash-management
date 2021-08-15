@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="loading" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en" data-textdirection="ltr">
+<html class="loading" lang="en" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 
 <head>
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
-    <title>Receipt Voucher</title>
+    <title>Report | Headwise Report</title>
     <link rel="apple-touch-icon" href="app-assets/images/favicon/apple-touch-icon-152x152.png">
     <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/favicon/favicon-32x32.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="app-assets/vendors/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="app-assets/css/pages/app-invoice.css">
     <!-- END: VENDOR CSS-->
     <!-- BEGIN: Page Level CSS-->
     <link rel="stylesheet" type="text/css" href="app-assets/css/themes/horizontal-menu-template/materialize.css">
@@ -29,16 +30,7 @@
     <!-- END: Custom CSS-->
 </head>
 <!-- END: Head-->
- <script  type="text/javascript">
-    function showFunctionModal(id) {
-        $(document).ready(function () {
-            $('.return').modal();
-            $("#ids").val(id);
-        });
-    
-    	
-   
-    </script>
+
 <body class="horizontal-layout page-header-light horizontal-menu preload-transitions 2-columns   " data-open="click" data-menu="horizontal-menu" data-col="2-columns">
 
     <!-- BEGIN: Header-->
@@ -91,12 +83,13 @@
                     </ul>
                     <!-- profile-dropdown-->
                     <ul class="dropdown-content" id="profile-dropdown">
-                        <li><a class="grey-text text-darken-1" href="user-profile-page.html"><i class="material-icons">person_outline</i> Profile</a></li>
-                        <li><a class="grey-text text-darken-1" href="app-chat.html"><i class="material-icons">chat_bubble_outline</i> Chat</a></li>
-                        <li><a class="grey-text text-darken-1" href="page-faq.html"><i class="material-icons">help_outline</i> Help</a></li>
+                        <li><a class="grey-text text-darken-1" href="#"><i class="material-icons">person_outline</i> Profile</a></li>
+                        <li><a class="grey-text text-darken-1" href="#"><i class="material-icons">chat_bubble_outline</i> Chat</a></li>
+						<li><a class="grey-text text-darken-1" href="users.html"><i class="material-icons">supervisor_account</i> Users</a></li>
+                        <li><a class="grey-text text-darken-1" href="#"><i class="material-icons">help_outline</i> Help</a></li>
                         <li class="divider"></li>
-                        <li><a class="grey-text text-darken-1" href="user-lock-screen.html"><i class="material-icons">lock_outline</i> Lock</a></li>
-                        <li><a class="grey-text text-darken-1" href="user-login.html"><i class="material-icons">keyboard_tab</i> Logout</a></li>
+                        <li><a class="grey-text text-darken-1" href="#"><i class="material-icons">lock_outline</i> Lock</a></li>
+                        <li><a class="grey-text text-darken-1" href="index.html"><i class="material-icons">keyboard_tab</i> Logout</a></li>
                     </ul>
                 </div>
                 <nav class="display-none search-sm">
@@ -347,15 +340,15 @@
                 <div class="container">
                     <div class="row">
                         <div class="col s12 m6 l6">
-                            <h5 class="breadcrumbs-title"><span>Advance Detail(s)</span></h5>
+                            <h5 class="breadcrumbs-title"><span>Headwise Report</span></h5>
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
                             <ol class="breadcrumbs mb-0">
                                 <li class="breadcrumb-item"><a href="dashboard.html">Home</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="#">Transactions</a>
+                                <li class="breadcrumb-item"><a href="#">Reports</a>
                                 </li>
-                                <li class="breadcrumb-item active">Advances
+                                <li class="breadcrumb-item active">Headwise
                                 </li>
                             </ol>
                         </div>
@@ -365,107 +358,61 @@
 			
 			<div class="col s12">
                 <div class="container">
-                    <div class="section" style="text-align: center;">
-						<a class="waves-effect waves-light btn modal-trigger cyan mb-2 mr-1" href="#newadvance">New
-							<i class="material-icons left">add</i>
-						</a>
-						
-						<div id="newadvance" class="modal">
-						<form action="#" th:action="@{/advance/add}" th:object="${advancevoucher}" method="POST">
-                                          
-                            <div class="modal-content">
-                                <div id="basic-form" class="card card card-default scrollspy">
-                                    <div class="card-content">
-                                        <h4 class="card-title">Advance Details</h4>
-                                        
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    
-                                                    <select th:field="*{account}">
-                                                        <option value="" disabled selected>Choose your Account</option>
-                                                        <th:block th:each="account : ${listaccount}">
-                                                        <option  th:text="${account.accountname}" th:value="${account.id}"></option>
-                                                        </th:block>
-                                                    </select>
-                                                      
-                                                    <label>Select Petty Cash Account</label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                <th:block th:each="account : ${listaccount}">
-                                                    
-                                                    
-                                                    <input   th:field="*{account}" th:value="${account.openingbalance}" id="current_balance" type="text" class="validate valid">
-                                                </th:block>
-                                                    
-                                                    <label class="active" for="current_balance">Current Balance</label>
-                                                </div>
-                                            </div>
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input id="voucher_number" type="text" th:field="*{id}">
-                                                    <label for="voucher_number" class="">Advance number</label>
-                                                </div>
-                                            </div>
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                 <select th:field="*{receiver}">
-                                                        <option value="" disabled selected>Receiver</option>
-                                                        <th:block th:each="receiver : ${listreceiver}">
-                                                        <option  th:text="${receiver.receiver_name}" th:value="${receiver.id}"></option>
-                                                        </th:block>
-                                                    </select>
-                                                    
-                                                    <label>Select Receiver</label>
-                                                </div>
-                                            </div>
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input type="text" class="datepicker" id="date" th:field="*{datecreation}">
-													<label for="date">Date</label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    <input id="amount" type="text" th:field="*{amount}">
-                                                    <label for="amount" class="">Amount (QAR)</label>
-                                                </div>
-                                            </div>
-											
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input disabled="" value="Display the amount in words no editing" id="disabled" type="text" class="validate">
-                                                    <label for="disabled" class="active">Amount in Words</label>
-                                                </div>
-                                            </div>
-											
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    <textarea id="remarks" class="materialize-textarea" th:field="*{remarks}"></textarea>
-                                                    <label for="remarks">Remarks</label>
-                                                </div>
-                                                
-                                            </div>
-                                        
-                                    </div>
+					
+                    
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+			
+            <div class="col s12">
+                <div class="container">
+                   <!-- users list start -->
+                    <section class="users-list-wrapper section">
+                        <div class="users-list-filter">
+                            <div class="card-panel">
+                                <div class="row">
+                                    <form>
+										<div class="row">
+											<div class="col s12 m6 l4">
+												<label for="users-list-verified">Account</label>
+												<div class="input-field">
+													<select class="form-control" id="account_list">
+														<option value="">All</option>
+														<option value="1">Convibe Technologies</option>
+														<option value="2">Noaaxim Technologies</option>
+														<option value="2">Ireidius Technologies</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col s12 m6 l4">
+												<label for="date">From</label>
+												<input type="text" class="datepicker" id="date">
+											</div>
+											<div class="col s12 m6 l4">
+												<label for="date">To</label>
+												<input type="text" class="datepicker" id="date">
+											</div>
+											<div class="col s12 m6 l4 display-flex align-items-center show-btn">
+												<button type="submit" class="btn btn-block indigo waves-effect waves-light">List</button>
+											</div>
+										</div>
+										
+                                    </form>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-								
-                            	<button  class="modal-action modal-close waves-effect waves-red btn-flat " value="Cancel" name="Cancel">Cancel</button>
-                                <button  class="modal-action modal-close waves-effect waves-green btn-flat" value="Save" name="Save">Save </button>
-                            </div>
-                            </form>
                         </div>
 						
-						<a class="waves-effect waves-light btn modal-trigger green mb-2 mr-1" href="#receiptexport">Export
+						<div class="section" style="text-align: center;">
+						
+						<a class="waves-effect waves-light btn modal-trigger green mb-2 mr-1" href="#expenseexport">Export
 							<i class="material-icons left">file_download</i>
 						</a>
                         
-						<div id="receiptexport" class="modal">
+						<div id="expenseexport" class="modal">
                             <div class="modal-content">
-                                <h4>Export Advances</h4>
+                                <h4>Export Expense Vouchers</h4>
                                 <p class="mt-5">
 									<label class="mr-5">
                                         <input class="with-gap" name="group3" type="radio" checked="">
@@ -485,305 +432,68 @@
                         </div>
 						
                     </div>
-                </div>
-                <div class="content-overlay"></div>
-            </div>
-			
-            <div class="col s12">
-                <div class="container">
-                   <!-- users list start -->
-                    <section class="users-list-wrapper section">
-                        <div class="users-list-filter">
-                            <div class="card-panel">
-                                <div class="row">
-                                    <form>
-                                        <div class="col s12 m6 l3">
-                                            <label for="users-list-verified">Account</label>
-                                            <div class="input-field">
-                                                <select class="form-control" id="account_list">
-                                                    <option value="">All</option>
-                                                    <option value="1">Convibe Technologies</option>
-                                                    <option value="2">Noaaxim Technologies</option>
-													<option value="2">Ireidius Technologies</option>
-                                                </select>
-                                            </div>
-                                        </div>
-										<div class="col s12 m6 l3">
-                                            <label for="users-list-verified">Receiver</label>
-                                            <div class="input-field">
-                                                <select class="form-control" id="account_list">
-                                                    <option value="">All</option>
-                                                    <option value="1">Jino Pulickal Mathew</option>
-                                                    <option value="2">Test Receiver Two</option>
-													<option value="2">Test Receiver Three</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col s12 m6 l3">
-											<label for="date">Date</label>
-                                            <input type="text" class="datepicker" id="date">
-                                        </div>
-                                        <div class="col s12 m6 l3">
-											<label for="amount" class="">Amount (QAR)</label>
-                                            <input id="amount" type="text">
-                                        </div>
-                                        <div class="col s12 m6 l3 display-flex align-items-center show-btn">
-                                            <button type="submit" class="btn btn-block indigo waves-effect waves-light">Show</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+					
+					
                         <div class="users-list-table">
                             <div class="card">
                                 <div class="card-content">
+									
                                     <!-- datatable start -->
                                     <div class="responsive-table">
                                         <table id="users-list-datatable" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>Voucher Number</th>
-                                                    <th>Petty Cash Account</th>
-													<th>Receiver</th>
-													<th>Date</th>
-                                                    <th>Advance (QAR)</th>
-													<th>Return (QAR)</th>
-													<th>Balance (QAR)</th>
-                                                    <th>Remarks</th>
-                                                    <th>edit</th>
-													<th>return</th>
-													<th>delete</th>
+                                                    <th>Sl No</th>
+                                                    <th>Date</th>
+                                                    <th>Receiver</th>
+													<th>Fuel Expense</th>
+													<th>Maintanence</th>
+													<th>Test Expense</th>
+                                                    <th>Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                             <tr th:each="advvoucher : ${listeadvancevoucher}">
-                                        			<td th:text="${advvoucher.id}"></td>
-                                                    <td th:text="${advvoucher.account.accountname }"></td>
-                                       				 <td th:text="${advvoucher.receiver.receiver_name }"></td>
-                                       				<td th:text="${advvoucher.datecreation}"></td>
-                                       				<td th:text="${advvoucher.amount }"></td>
-                                       				<td th:text="${advvoucher.returnamount}"></td>
-                                       				<td th:text="${advvoucher.balance }"></td>
-                                                    <td  th:text="${advvoucher.remarks}" ></td>
-                                                    
-                                         			<td><a href="#advanceedit"   class="modal-trigger"><i class="material-icons">edit</i></a>
-                                         			<div id="advanceedit" class="modal">
-							<form action="#" th:action="@{/advance/update}" th:object="${advancevoucher}" method="POST">
-                           <input type="hidden" name="id"  th:value="${advvoucher.id}">
-                            <div class="modal-content">
-                                <div id="basic-form" class="card card card-default scrollspy">
-                                    <div class="card-content">
-                                        <h4 class="card-title">Edit Advance</h4>
-                                        
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                 
-                                                    <select  name="account" th:field="*{account}">
-                                                        <option value="" disabled selected>Choose your Account</option>
-                                                        <th:block th:each="account : ${listaccount}">
-                                                        <option  th:text="${account.accountname}" th:value="${account.id}"></option>
-                                                        </th:block>
-                                                    </select>
-                                                    <label>Select Petty Cash Account</label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                 
-                                                   
-                                                    <input   th:text="${advvoucher.account.openingbalance}" id="current_balance" type="text" class="validate valid">
-                                               
-                                                  
-                                                    <label class="active" for="current_balance">Current Balance</label>
-                                                </div>
-                                            </div>
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input id="voucher_number" type="text" th:text="${advvoucher.id}">
-                                                    <label for="voucher_number" class="">Advance number</label>
-                                                </div>
-                                            </div>
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                 <select  name="receiver" th:field="*{receiver}">
-                                                        <option value="" disabled selected>Receiver</option>
-                                                        <th:block th:each="receiver : ${listreceiver}">
-                                                        <option   th:text="${receiver.receiver_name}" th:value="${receiver.id}"></option>
-                                                        </th:block>
-                                                    </select>
-                                                    
-                                                    <label>Select Receiver</label>
-                                                </div>
-                                            </div>
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input type="text" class="datepicker" id="date" name="date" th:text="${advvoucher.datecreation}">
-													<label for="date">Date</label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    <input id="amount" name="amount" type="text" th:text="${advvoucher.amount}">
-                                                    <label for="amount" class="">Amount (QAR)</label>
-                                                </div>
-                                            </div>
-											
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input disabled="" value="Display the amount in words no editing" id="disabled" type="text" class="validate">
-                                                    <label for="disabled" class="active">Amount in Words</label>
-                                                </div>
-                                            </div>
-											
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    <textarea id="remarks" name="remarks"  class="materialize-textarea" th:text="${advvoucher.remarks}"></textarea>
-                                                    <label for="remarks">Remarks</label>
-                                                </div>
-                                                
-                                            </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-								<a th:href="@{'advancedetails'}" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-                                <button  class="modal-action modal-close waves-effect waves-green btn-flat " name="Save" value="Save">Save</button>
-                            </div>
-                            </form>
-                        </div>
-						
-                                         			
-                                         			</td>
-													
-													<td><a  href="#return"   class="modal-trigger"><i class="material-icons">refresh</i></a>
-													<div id="return"  class="modal" >
-						<form  th:action="@{/advance/return}"  method="POST"   th:object="${advancevoucher}">
-						 <input type="hidden" name="id"  th:value="${advvoucher.id}">
-                            <div class="modal-content">
-							
-                                <div id="basic-form" class="card card card-default scrollspy">
-                                    <div class="card-content">
-                                        <h4 class="card-title">Return</h4>
-                                        
-                                            
-                                            
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input  name="ids" id="voucher_number" type="text" th:value="${advvoucher.id}">
-                                                    <label for="voucher_number" class="">Advance number</label>
-                                                </div>
-                                            </div>
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input id="amount"  type="text" th:value="${advvoucher.amount}" >
-                                                    <label for="amount" class="">Amount (QAR)</label>
-                                                </div>
-                                            </div>
-											
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input type="text" class="datepicker" id="date" th:value="${advvoucher.datecreation}">
-													<label for="date">Date</label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    <input id="amount" type="text" name="returnamount"  >
-                                                    <label for="amount" class="">Return Amount (QAR)</label>
-                                                </div>
-                                            </div>
-											
-											<div class="row">
-                                                <div class="input-field col s12">
-                                                    <input disabled="" value="Display the amount in words no editing" id="disabled" type="text" class="validate">
-                                                    <label for="disabled" class="active">Amount in Words</label>
-                                                </div>
-                                            </div>
-											
-                                            <div class="row">
-                                                <div class="input-field col s12">
-                                                    <textarea id="remarks" class="materialize-textarea" th:value="${advvoucher.remarks}"></textarea>
-                                                    <label for="remarks">Remarks</label>
-                                                </div>
-                                                
-                                            </div>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-								<a th:href="@{'advancedetails'}"  class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-                                <button  class="modal-action modal-close waves-effect waves-green btn-flat "  value="Save" name="Save">Save</button>
-                            </div>
-                            </form>
-							 
-							<div class="card card card-default scrollspy">
-								<div class="card-content">
-									<table class="bordered">
-										<thead>
-											<tr>
-												<th data-field="id">Sl No</th>
-												<th data-field="date">Date</th>
-												<th data-field="amount">Amount (QAR)</th>
-												<th data-field="amount">Actions</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td ></td>
-												<td ></td>
-												<td ></td>
-												<td><a href="#returndelete" class="modal-trigger"><i class="material-icons">delete</i></a></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							
-                        </div>
-						
-													</td>
-													
-													<td><a   href="#advancedelete"     class=" modal-trigger" ><i class="material-icons">delete</i></a>
-													
-												<!-- Delete modal --> <br>
-													<div  id="advancedelete" class="modal">
-													<form action="#" th:action="@{/advance/delete}"  method="POST">
-                                          			 <input type="hidden" name="id"  th:value="${advvoucher.id}">
-                                          			 <div class="modal-content">
-                               							 <h4>Delete Advance</h4>
-                                							<p class="mt-5">
-																You are about to delete the advance. This action cannot be undone. Note that you can't delete an advance which already verified.
-															</p>
-                            						 </div>
-                           							 <div class="modal-footer">
-														<a th:href="@{'advancedetails'}" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-                               						    <button  class="modal-action modal-close waves-effect waves-green btn-flat " value="Delete" name="Delete">Delete</button>
-                           							 
-                           							 </div>
-                           							 </form>
-                           							 
-                        							</div>
-													
-													
-													</td>
-                                                
-                                                
-                                                </tr>
                                                 <tr>
                                                     <td>1</td>
-                                                    <td>Convibe Technologies</td>
-													<td>Test Receiver</td>
-													<td>22/06/2021</td>
-                                                    <td>200.00</td>
-													<td>100.00</td>
-													<td>100.00</td>
-                                                    <td>Fuel Expense</td>
-                                                    <td><a href="#advanceedit" class="modal-trigger"><i class="material-icons">edit</i></a></td>
-													<td><a href="#return" class="modal-trigger"><i class="material-icons">refresh</i></a></td>
-													<td><a href="#advancedelete" class="modal-trigger"><i class="material-icons">delete</i></a></td>
+                                                    <td>22/06/2021</td>
+                                                    <td>Test Receiver</td>
+													<td>500.00</td>
+													<td>0.00</td>
+													<td>0.00</td>
+													<td>500.00</td>
                                                 </tr>
+												
+												<tr>
+                                                    <td>2</td>
+                                                    <td>22/06/2021</td>
+													<td>Test Receiver</td>
+													<td>0.00</td>
+													<td>650.00</td>
+													<td>0.00</td>
+													<td>650.00</td>
+                                                </tr>
+												
+												<tr>
+                                                    <td>3</td>
+                                                    <td>22/06/2021</td>
+                                                    <td>Test Receiver</td>
+													<td>0.00</td>
+													<td>0.00</td>
+													<td>250.00</td>
+													<td>250.00</td>
+                                                </tr>
+												
+												<tr>
+                                                    <td>4</td>
+                                                    <td>22/06/2021</td>
+                                                    <td>Test Receiver</td>
+													<td>510.00</td>
+													<td>0.00</td>
+													<td>0.00</td>
+													<td>510.00</td>
+                                                </tr>
+												
+												
                                             </tbody>
                                         </table>
 
@@ -792,23 +502,376 @@
 									
                                 </div>
                             </div>
-							
-								
-							
+							<div id="expenseedit" class="modal" style="width:85%;">
+                            <div class="modal-content" >
+                                <div id="basic-form" class="card card card-default scrollspy">
+                    <section class="invoice-edit-wrapper section">
+                        <div class="row">
+                            <!-- invoice view page -->
+                            <div class="col xl12 m12 s12">
+                                <div class="card">
+                                    <div class="card-content px-36">
+                                        <!-- header section -->
+										
+										<div class="row">
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    <select>
+                                                        <option value="" disabled selected>Choose your Account</option>
+                                                        <option value="1">Convibe Technologies</option>
+                                                        <option value="2">Noaaxim Technologies</option>
+                                                        <option value="3">Ireidius Technologies</option>
+                                                    </select>
+                                                    <label>Select Petty Cash Account</label>
+                                                </div>
+                                            </div>
+                                        </div>
+										
+										
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input id="voucher_number" type="text">
+                                                <label for="voucher_number" class="">Voucher number</label>
+                                            </div>
+                                            
+                                            <div class="input-field col s6">
+                                                <input type="text" class="datepicker" id="date">
+												<label for="date">Date</label>
+                                            </div>
+                                        </div>
+										
+										<div class="row">
+                                            <div class="input-field col s6">
+                                                <select>
+                                                    <option value="" disabled selected>Select Narration</option>
+                                                    <option value="1">Vehicle Maintanence</option>
+                                                    <option value="2">Cash Purchase</option>
+                                                    <option value="3">Reimbursement</option>
+                                                </select>
+                                                <label>Select Narration</label>
+                                            </div>
+                                            
+                                            <div class="input-field col s6">
+                                                <select>
+                                                    <option value="" disabled selected>Select Receiver</option>
+                                                    <option value="1">Jino Pulickal Mathew</option>
+                                                    <option value="2">Receiver Name Two</option>
+                                                    <option value="3">Receiver Name Three</option>
+                                                </select>
+                                                <label>Select Receiver</label>
+                                            </div>
+                                        </div>
+                                        
+                                       
+                                        <!-- product details table-->
+                                        <div class="invoice-product-details mb-3">
+                                            <form class="form invoice-item-repeater">
+                                                <div data-repeater-list="group-a">
+                                                    <div class="mb-2" data-repeater-item>
+                                                        <!-- invoice Titles -->
+                                                        <div class="row mb-1">
+                                                            <div class="col s3 m4">
+                                                                <h6 class="m-0">Expense Head</h6>
+                                                            </div>
+                                                            <div class="col s3">
+                                                                <h6 class="m-0">Remarks</h6>
+                                                            </div>
+                                                            <div class="col s3">
+                                                                <h6 class="m-0">Amount</h6>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="invoice-item display-flex mb-1">
+                                                            <div class="invoice-item-filed row pt-1">
+                                                                <div class="col s3 m4 input-field">
+                                                                    <select class="invoice-item-select browser-default">
+                                                                        <option value="1">Fuel</option>
+                                                                        <option value="2">Material Purchase</option>
+                                                                        <option value="3">Vehicle Parts</option>
+                                                                       
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col m3 s3 input-field">
+                                                                    <input type="text" placeholder="Remarks">
+                                                                </div>
+                                                                <div class="col m3 s3 input-field">
+                                                                    <input type="text" placeholder="QAR 0.00">
+                                                                </div>
+                                                                
+                                                                <div class="col m3 s3 input-field">
+                                                                    <input type="text" class="invoice-item-desc" value="Notes if any">
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="invoice-icon display-flex flex-column justify-content-between">
+                                                                <span data-repeater-delete class="delete-row-btn">
+                                                                    <i class="material-icons">clear</i>
+                                                                </span>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="input-field">
+                                                    <button class="btn invoice-repeat-btn" data-repeater-create type="button">
+                                                        <i class="material-icons left">add</i>
+                                                        <span>Add Expense</span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- invoice subtotal -->
+                                        <div class="invoice-subtotal">
+                                            <div class="row">
+                                                <div class="col m5 s12">
+                                                    <div class="input-field">
+                                                        <input type="text" placeholder="Amount in Words">
+                                                    </div>
+                                                    <div class="input-field">
+                                                        <input type="text" placeholder="Remarks">
+                                                    </div>
+                                                </div>
+                                                <div class="col xl4 m7 s12 offset-xl3">
+                                                    <ul>
+                                                        <li class="display-flex justify-content-between">
+                                                            <span class="invoice-subtotal-title">Subtotal</span>
+                                                            <h6 class="invoice-subtotal-value">QAR 00.00</h6>
+                                                        </li>
+                                                        
+                                                        <li>
+                                                            <div class="divider mt-2 mb-2"></div>
+                                                        </li>
+                                                        <li class="display-flex justify-content-between">
+                                                            <span class="invoice-subtotal-title">Expense Total</span>
+                                                            <h6 class="invoice-subtotal-value">QAR 00.00</h6>
+                                                        </li>
+                                                        <li class="display-flex justify-content-between">
+                                                            <span class="invoice-subtotal-title">Advance</span>
+                                                            <h6 class="invoice-subtotal-value">- QAR 00.00</h6>
+                                                        </li>
+                                                        <li class="display-flex justify-content-between">
+                                                            <span class="invoice-subtotal-title">Balance</span>
+                                                            <h6 class="invoice-subtotal-value">QAR 00,000</h6>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                            </div>
+                            <div class="modal-footer">
+								<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Update</a>
+                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
+                            </div>
+                        </div>
 						
-													
+						</div>
 						
 						
-													
-													
-													
+						
+						<div id="verify" class="modal" style="width:85%;">
+                            <div class="modal-content" >
+                                <div id="basic-form" class="card card card-default scrollspy">
+                    <section class="invoice-edit-wrapper section">
+                        <div class="row">
+                            <!-- invoice view page -->
+                            <div class="col xl12 m12 s12">
+                                <div class="card">
+                                    <div class="card-content px-36">
+                                        <!-- header section -->
+										
+										<div class="row">
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    <select>
+                                                        <option value="" disabled selected>Choose your Account</option>
+                                                        <option value="1">Convibe Technologies</option>
+                                                        <option value="2">Noaaxim Technologies</option>
+                                                        <option value="3">Ireidius Technologies</option>
+                                                    </select>
+                                                    <label>Select Petty Cash Account</label>
+                                                </div>
+                                            </div>
+                                        </div>
+										
+										
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input id="voucher_number" type="text">
+                                                <label for="voucher_number" class="">Voucher number</label>
+                                            </div>
+                                            
+                                            <div class="input-field col s6">
+                                                <input type="text" class="datepicker" id="date">
+												<label for="date">Date</label>
+                                            </div>
+                                        </div>
+										
+										<div class="row">
+                                            <div class="input-field col s6">
+                                                <select>
+                                                    <option value="" disabled selected>Select Narration</option>
+                                                    <option value="1">Vehicle Maintanence</option>
+                                                    <option value="2">Cash Purchase</option>
+                                                    <option value="3">Reimbursement</option>
+                                                </select>
+                                                <label>Select Narration</label>
+                                            </div>
+                                            
+                                            <div class="input-field col s6">
+                                                <select>
+                                                    <option value="" disabled selected>Select Receiver</option>
+                                                    <option value="1">Jino Pulickal Mathew</option>
+                                                    <option value="2">Receiver Name Two</option>
+                                                    <option value="3">Receiver Name Three</option>
+                                                </select>
+                                                <label>Select Receiver</label>
+                                            </div>
+                                        </div>
+                                        
+                                       
+                                        <!-- product details table-->
+                                        <div class="invoice-product-details mb-3">
+                                            <form class="form invoice-item-repeater">
+                                                <div data-repeater-list="group-a">
+                                                    <div class="mb-2" data-repeater-item>
+                                                        <!-- invoice Titles -->
+                                                        <div class="row mb-1">
+                                                            <div class="col s3 m4">
+                                                                <h6 class="m-0">Expense Head</h6>
+                                                            </div>
+                                                            <div class="col s3">
+                                                                <h6 class="m-0">Remarks</h6>
+                                                            </div>
+                                                            <div class="col s3">
+                                                                <h6 class="m-0">Amount</h6>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="invoice-item display-flex mb-1">
+                                                            <div class="invoice-item-filed row pt-1">
+                                                                <div class="col s3 m4 input-field">
+                                                                    <select class="invoice-item-select browser-default">
+                                                                        <option value="1">Fuel</option>
+                                                                        <option value="2">Material Purchase</option>
+                                                                        <option value="3">Vehicle Parts</option>
+                                                                       
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col m3 s3 input-field">
+                                                                    <input type="text" placeholder="Remarks">
+                                                                </div>
+                                                                <div class="col m3 s3 input-field">
+                                                                    <input type="text" placeholder="QAR 0.00">
+                                                                </div>
+                                                                
+                                                                <div class="col m3 s3 input-field">
+                                                                    <input type="text" class="invoice-item-desc" value="Notes if any">
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="invoice-icon display-flex flex-column justify-content-between">
+                                                                <span data-repeater-delete class="delete-row-btn">
+                                                                    <i class="material-icons">clear</i>
+                                                                </span>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="input-field">
+                                                    <button class="btn invoice-repeat-btn" data-repeater-create type="button">
+                                                        <i class="material-icons left">add</i>
+                                                        <span>Add Expense</span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- invoice subtotal -->
+                                        <div class="invoice-subtotal">
+                                            <div class="row">
+                                                <div class="col m5 s12">
+                                                    <div class="input-field">
+                                                        <input type="text" placeholder="Amount in Words">
+                                                    </div>
+                                                    <div class="input-field">
+                                                        <input type="text" placeholder="Remarks">
+                                                    </div>
+													<div class="input-field">
+                                                         <select>
+															<option value="" disabled selected>Select Advance</option>
+															<option value="1">Advance One</option>
+															<option value="2">Advance Two</option>
+															<option value="3">Advance Three</option>
+														</select>
+														<label>Include Advance Amount</label>
+                                                    </div>
+                                                    <div class="file-field input-field">
+														<div class="btn float-right">
+															<span>Files</span>
+															<input type="file">
+														</div>
+														<div class="file-path-wrapper">
+															<input class="file-path validate" type="text">
+														</div>
+													</div>
+                                                </div>
+                                                <div class="col xl4 m7 s12 offset-xl3">
+                                                    <ul>
+                                                        <li class="display-flex justify-content-between">
+                                                            <span class="invoice-subtotal-title">Subtotal</span>
+                                                            <h6 class="invoice-subtotal-value">QAR 00.00</h6>
+                                                        </li>
+                                                        
+                                                        <li>
+                                                            <div class="divider mt-2 mb-2"></div>
+                                                        </li>
+                                                        <li class="display-flex justify-content-between">
+                                                            <span class="invoice-subtotal-title">Expense Total</span>
+                                                            <h6 class="invoice-subtotal-value">QAR 00.00</h6>
+                                                        </li>
+                                                        <li class="display-flex justify-content-between">
+                                                            <span class="invoice-subtotal-title">Advance</span>
+                                                            <h6 class="invoice-subtotal-value">- QAR 00.00</h6>
+                                                        </li>
+                                                        <li class="display-flex justify-content-between">
+                                                            <span class="invoice-subtotal-title">Balance</span>
+                                                            <h6 class="invoice-subtotal-value">QAR 00,000</h6>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                            </div>
+                            <div class="modal-footer">
+								<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Verify</a>
+                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
+                            </div>
+                        </div>
+						
+						</div>
 						
 						
-						<div id="returndelete" class="modal">
+						
+						
+						<div id="expensedelete" class="modal">
                             <div class="modal-content">
-                                <h4>Delete Advance Return</h4>
+                                <h4>Delete Expense Record</h4>
                                 <p class="mt-5">
-									You are about to delete the return. This action cannot be undone. Note that you can't delete a return which already verified.
+									You are about to delete the expense. This action cannot be undone. Note that you can't delete an expense which is already has verified.
 								</p>
                             </div>
                             <div class="modal-footer">
@@ -839,6 +902,7 @@
     <script src="app-assets/js/vendors.min.js"></script>
 	<script src="app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
 	<script src="app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
+	<script src="app-assets/vendors/form_repeater/jquery.repeater.min.js"></script>
     <!-- BEGIN VENDOR JS-->
     <!-- BEGIN PAGE VENDOR JS-->
     <!-- END PAGE VENDOR JS-->
@@ -849,9 +913,9 @@
     <!-- END THEME  JS-->
     <!-- BEGIN PAGE LEVEL JS-->
 	<script src="app-assets/js/scripts/page-users.js"></script>
-	<script src="/app-assets/js/scripts/advance-ui-modals.js"></script>
+	<script src="app-assets/js/scripts/advance-ui-modals.js"></script>
+	<script src="app-assets/js/scripts/app-invoice.js"></script>
     <!-- END PAGE LEVEL JS-->
-   
 </body>
 
 </html>

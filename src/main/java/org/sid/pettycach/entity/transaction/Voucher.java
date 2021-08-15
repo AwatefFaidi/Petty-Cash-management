@@ -28,7 +28,7 @@ import lombok.ToString;
 public  class Voucher   {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	 //@Temporal(TemporalType.DATE)

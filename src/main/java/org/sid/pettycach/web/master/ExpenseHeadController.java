@@ -3,7 +3,10 @@ package org.sid.pettycach.web.master;
 import java.util.List;
 
 import org.sid.pettycach.dao.master.ExpenseHeadRepository;
+import org.sid.pettycach.dao.transaction.ExpenseVoucherRepository;
 import org.sid.pettycach.entity.master.ExpenseHead;
+import org.sid.pettycach.entity.master.Narration;
+import org.sid.pettycach.entity.transaction.ExpenseVoucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ExpenseHeadController {
 	@Autowired
 	ExpenseHeadRepository expenseheadRepository;
+	@Autowired
+	ExpenseVoucherRepository expensevoucherrepository;
 	
 	@GetMapping("/expensehead")
 	public String showexpenseList(Model model) {
@@ -62,10 +67,23 @@ public class ExpenseHeadController {
 	
 	@RequestMapping("expense/delete/{id}")
 	public String deleteExpense(@PathVariable("id")long id)
-	{
-		expenseheadRepository.deleteById(id); 
-		return "redirect:/expensehead";
-	}
+	{ 
+		ExpenseHead expenseshead = expenseheadRepository.findById((long) id).orElse(null);
+		expenseheadRepository.deleteById((long) id);
+    	return "redirect:/expensehead";
+		
+   /* if (expenseshead!= expensevoucherrepository.findexpense(id) )
+      {
+    	expenseheadRepository.deleteById((long) id);
+    	return "redirect:/expensehead";
+              }
+    else
+     {
+
+    	return "redirect:/expensehead";
+     }*/
+}
+	
 	
 	@GetMapping("expense/edit/{id}")
     public String showUpdateexpense(@PathVariable("id") long id, Model model) {

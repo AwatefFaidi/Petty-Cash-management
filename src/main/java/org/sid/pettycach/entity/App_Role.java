@@ -14,7 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor @ToString
+@Data @AllArgsConstructor @NoArgsConstructor 
 public class App_Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +24,9 @@ public class App_Role {
     {
     	this.roleName=roleName;
     }
-   
+    @Override
+	public String toString() {
+		return this.roleName;
+	}
 
 }

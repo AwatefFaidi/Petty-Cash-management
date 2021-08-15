@@ -1,8 +1,10 @@
 package org.sid.pettycach.web.transaction;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -79,6 +82,10 @@ public class VoucherController {
 		return "receiptvoucher";
 	    
 	}
+	
+	
+	
+	
 	
 	@PostMapping(value= "receipt/add",  params = "Save")
 
@@ -145,6 +152,10 @@ public class VoucherController {
 		
 		return "receiptvoucher";
 	}
+	
+	
+	
+	
 	@PostMapping(value="receipt/update", params="Save")
     public String updatereceipt( @RequestParam(name = "id") long id,
 			 @RequestParam(name = "account") Account account ,@RequestParam(name = "amount") double amount,
@@ -171,7 +182,9 @@ public class VoucherController {
     }
 	
 	
-	/***************************** expense voucher part *****************/
+	
+	
+	
 	
 	/************************* Expense Voucher Part ******************/
 	
@@ -205,28 +218,34 @@ public class VoucherController {
 	}
 	
 	
-	@PostMapping(value= "expensevoucher/add",  params = "Saveexpense")
+	@PostMapping(value= "expensevoucher/add",params="Saveexpense")
 
-	public String Saveexpense( @ModelAttribute("expensevoucher") ExpenseVoucher expensevoucher) {
+	public String Saveexpense( @ModelAttribute("expensevoucher") ExpenseVoucher expensevoucher,HttpServletRequest request) {
 		expensevoucher.setExpensestatus(VoucherStatus.pending);
-		 
-		expensevoucher.getExpenses().add(new ExpenseHead());
+		//Collection<ExpenseHead> expenses=expenseheadRepository.findAll();
+		//expensevoucher.setExpenses(expenses);
+		
+		
+		 /*String[]DetailsAmounts=request.getParameterValues("detailsamount");
+		
+		 String[]DetailsRemarks=request.getParameterValues("detailsremarks");
+		 System.out.println(DetailsAmounts);
+		 System.out.println(DetailsRemarks);
+		 for (int i=0; i<DetailsAmounts.length;i++)
+		 {
+			 
+			 expensevoucher.getDetails().add(new ExpenseDetails(DetailsRemarks[i],DetailsAmounts[i],DetailsHead[i]));
+		 }
+		//expensevoucher.getExpenses().add(new ExpenseHead());*/
 		expensevoucherRepository.save(expensevoucher);
-		//System.out.println(expensevoucher);
+		
 		return "redirect:/expensevoucher";    
 	}
 	
 	
-	@PostMapping( value= "expensevoucher/add", params = "AddExpense")
-    public String addexpensehead(@ModelAttribute("expensevoucher") ExpenseVoucher expensevoucher) {
-        
-        expensevoucher.getExpenses().add(new ExpenseHead());
-        expensevoucherRepository.save(expensevoucher);
-        
-        
-       return "redirect:/expensevoucher";
-       
-    }
+	
+	
+	
 	
 	
 	@PostMapping(value="expensevoucher/verify",params = "Verify")
@@ -234,18 +253,18 @@ public class VoucherController {
 			@RequestParam(name = "account") Account account ,
 			@RequestParam(name = "receiver") Receivers receiver ,
 			@RequestParam(name = "narration") Narration narration ,
-			@RequestParam(name = "totalamount") double totalamount,
+			@RequestParam(name = "totalamount") Double totalamount,
 			@RequestParam(name = "date") Date date, 
-			@RequestParam(name = "remarks") String remarks,
-			@RequestParam(name = "expenses")ExpenseHead expensehead, 
-			@RequestParam(name = "amount") double amount,
-			@RequestParam(name = "vremarks") String voucherremarks)
+			@RequestParam(name = "remarks") String remarks)
+			//@RequestParam(name = "expenses")ExpenseDetails expensehead, 
+			//@RequestParam(name = "amount") Double amount,
+			//@RequestParam(name = "vremarks") String voucherremarks)
 	
 	{
 		 ExpenseVoucher expense=expensevoucherRepository.findById(id).get();
 		 transactionservice.pay(account.getId(),totalamount);
 		 
-		 transactionservice.updateexpense(id, date, amount,totalamount,  remarks, remarks, account, receiver, narration, expensehead);
+		 transactionservice.updateexpense(id, date, 0.0,totalamount,  remarks, remarks, account, receiver, narration, null);
 		 
 		
 		return "redirect:/expensevoucher";
@@ -258,7 +277,7 @@ public class VoucherController {
 			@RequestParam(name = "narration") Narration narration ,
 			@RequestParam(name = "amount") double amount,
 			@RequestParam(name = "totalamount") double totalamount,
-			@RequestParam(name = "expenses")ExpenseHead expensehead ,
+			@RequestParam(name = "expenses")ExpenseDetails expensehead ,
 			  @RequestParam(name = "date") Date date, 
 			  @RequestParam(name = "vremarks") String voucherremarks,
 			  @RequestParam(name = "remarks") String remarks)
@@ -283,7 +302,12 @@ public class VoucherController {
 		return "redirect:/expensevoucher";
 	}
 	
-	
+	@PostMapping(value= "expensevoucher/add", params="AddExpense")
+
+	public String Savexpense( @ModelAttribute("expensevoucher") ExpenseVoucher expensevoucher,HttpServletRequest request) {
+		expensevoucher.setExpensestatus(VoucherStatus.pending);
+		return "redirect:/expensevoucher"; 
+	}
 	
 	
 	
@@ -377,8 +401,8 @@ public class VoucherController {
 			 @RequestParam(name = "receiver") Receivers receiver,
 			 @RequestParam(name = "date") Date date, @RequestParam(name = "remarks") String remarks ) {
 		 AdvanceVoucher adv=advancevoucherRepository.findById(id).get();
-		System.out.println(adv.getAmount());
-		System.out.println(adv.getAccount());
+		//System.out.println(adv.getAmount());
+		//System.out.println(adv.getAccount());
 		if(adv.getAccount()==account)
 		{
 			account.setOpeningbalance(account.getOpeningbalance()+adv.getAmount() -amount);
@@ -396,3 +420,20 @@ public class VoucherController {
 	 }
 	 
 }
+
+
+/******** second method with js 
+
+@RequestMapping("receiptvoucher/findById") 
+@ResponseBody
+public Optional<ReceiptVoucher> findById(Long id)
+{
+	return receiptvoucherRepository.findById(id);
+}
+
+@RequestMapping(value="receiptvoucher/update", method = {RequestMethod.PUT, RequestMethod.GET})
+public String update(ReceiptVoucher receipt) {
+	voucherRepository.save(receipt);	
+	return "redirect:/receiptvoucher";
+}
+****************/
