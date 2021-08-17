@@ -104,29 +104,40 @@ public class VoucherController {
 		return "redirect:/receiptvoucher";    
 	}
 	
-	@PostMapping(value="receipt/delete",params = "Delete")
-	public String deletereceipt(@RequestParam(name = "id") long id)
-	{    
-		ReceiptVoucher receipt= receiptvoucherRepository.findById(id).get(); 
+
+	@RequestMapping("receiptvoucher/findById") 
+	@ResponseBody
+	public Optional<ReceiptVoucher> findById(Long id)
+	{
+		return receiptvoucherRepository.findById(id);
+	}
+
+	@RequestMapping(value="receiptvoucher/update", method = {RequestMethod.PUT, RequestMethod.GET})
+	public String update(ReceiptVoucher receipt) {
+	
+		transactionservice.updatereceipt(receipt.getId(), receipt.getDatecreation(),receipt.getAmount(), receipt.getRemarks(),  receipt.getAccount()  );
+		return "redirect:/receiptvoucher";
+	}
+
+	@RequestMapping(value="receipt/verify", method = {RequestMethod.POST, RequestMethod.GET})
+	public String verify(ReceiptVoucher receipt) {
+	
+		transactionservice.credit(receipt.getAccount().getId(),receipt.getAmount());
+		receipt.setReceiptstatus(VoucherStatus.verified);
+		transactionservice.updatereceipt(receipt.getId(), receipt.getDatecreation(),receipt.getAmount(), receipt.getRemarks(),  receipt.getAccount()  );
+		receiptvoucherRepository.save(receipt);
+	return "redirect:/receiptvoucher";
+	}
+	
+	
+	
+	@RequestMapping(value="receiptvoucher/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
+	public String delete(Long id) {
+		receiptvoucherRepository.deleteById(id);
 		
-		receiptvoucherRepository.delete(receipt);
 		return "redirect:/receiptvoucher";
 	}
 	
-	@PostMapping(value="receipt/verify",params = "Verify")
-	public String verifyreceipt(@RequestParam(name = "id") long id,
-			@RequestParam(name = "account") Account account ,
-			@RequestParam(name = "amount") double amount,
-			  @RequestParam(name = "date") Date date, 
-			  @RequestParam(name = "remarks") String remarks ) {
-		 ReceiptVoucher receipt=receiptvoucherRepository.findById(id).get();
-		 transactionservice.credit(account.getId(),amount);
-		 receipt.setReceiptstatus(VoucherStatus.verified);
-		 transactionservice.updatereceipt(id, date, amount,  remarks,  account);
-		 receiptvoucherRepository.save(receipt);
-		
-		return "redirect:/receiptvoucher";
-	}
 	
 	@PostMapping(value="receipt/filter",params = "Show")
 	public String filterreceipt(Model model,
@@ -152,38 +163,9 @@ public class VoucherController {
 		
 		return "receiptvoucher";
 	}
-	
-	
-	
-	
-	@PostMapping(value="receipt/update", params="Save")
-    public String updatereceipt( @RequestParam(name = "id") long id,
-			 @RequestParam(name = "account") Account account ,@RequestParam(name = "amount") double amount,
-			  @RequestParam(name = "date") Date date, @RequestParam(name = "remarks") String remarks ) {
-		
-		
-		 transactionservice.updatereceipt(id, date, amount,  remarks,  account);
-     
-		
-		
-		
-	        return "redirect:/receiptvoucher"; 
-	 }
-	
-	
-	@GetMapping("receipt/edit/{id}")
-    public String showUpdatereceipt(@PathVariable("id") long id, Model model) {
-        ReceiptVoucher receiptvoucher=receiptvoucherRepository.findById(id).get();
-   
-        model.addAttribute("receiptvoucher", receiptvoucher);
-        List <Account> listaccount= accountRepository.findAll();
-        model.addAttribute("listaccount",listaccount );
-        return "redirect:/receiptvoucher";
-    }
-	
-	
-	
-	
+
+
+
 	
 	
 	/************************* Expense Voucher Part ******************/
