@@ -322,6 +322,14 @@ public class VoucherController {
 	    
 	}
 	
+	@RequestMapping("advancevoucher/findById") 
+	@ResponseBody
+	public Optional<AdvanceVoucher> findadvanceById(Long id)
+	{
+		return advancevoucherRepository.findById(id);
+	}
+	
+	
 	@PostMapping(value= "advance/add",  params = "Save")
 
 	public String Saveadvance( @ModelAttribute("advancevoucher") AdvanceVoucher advancevoucher) {
@@ -338,6 +346,8 @@ public class VoucherController {
 		
 		return "redirect:/advancedetails";    
 	}
+	
+	
 	
 	 @PostMapping(value="advance/return", params = "Save")
 	public String savereturnadvancevoucher( @RequestParam(name = "id") long id,@RequestParam(name = "returnamount")double returnamount) {
