@@ -1,0 +1,121 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<title>Component|Octopus</title>
+
+<spring:url value="/web/add-component" var="urlComponent"></spring:url>
+
+<jsp:include page="../fragments/m_head.jsp" />
+</head>
+<body
+	class="horizontal-layout horizontal-menu 2-columns   menu-expanded"
+	data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+	<!-- fixed-top-->
+
+	<jsp:include page="../fragments/m_top_navbar_menu.jsp"></jsp:include>
+
+	<div class="app-content content">
+		<div class="content-wrapper">
+			<div class="content-header row"></div>
+			<div class="content-body">
+				<section id="form-repeater">
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title" id="repeat-form">Add Component</h4>
+									<a class="heading-elements-toggle"><i
+										class="la la-ellipsis-h font-medium-3"></i></a>
+									<div class="heading-elements">
+										<ul class="list-inline mb-0">
+											<li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+											<li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="card-content collapse show">
+									<div class="card-body">
+										<form id="componentsForm" role="form" action="${urlComponent}"
+											method="post">
+											<div class="repeater-default">
+												<div data-repeater-list="car">
+													<div data-repeater-item>
+														<div class="form row">
+															<div class="form-group mb-1 col-sm-12 col-md-2">
+																<label for="name">Component</label> <br> <input
+																	type="text" class="form-control spocNames" name="name"
+																	required="required" placeholder="Component name">
+															</div>
+															<div class="form-group mb-1 col-sm-12 col-md-2">
+																<label for="description">Description</label> <br> <input
+																	type="text" class="form-control spocNames"
+																	id="description" name="description"
+																	placeholder="Component Description">
+															</div>
+
+															<div
+																class="form-group col-sm-12 col-md-2 text-center mt-2">
+																<button type="button" class="btn btn-danger"
+																	data-repeater-delete>
+																	<i class="ft-x"></i> Delete
+																</button>
+															</div>
+														</div>
+														<hr>
+													</div>
+												</div>
+												<div class="form-group overflow-hidden">
+													<div class="col-12">
+														<button type="button" data-repeater-create
+															class="btn btn-primary">
+															<i class="ft-plus"></i> Add
+														</button>
+													</div>
+												</div>
+												<div class="form-actions right">
+													<button type="button" class="btn btn-warning mr-1">
+														Cancel</button>
+													<button type="submit" class="btn btn-primary">Save
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+	<jsp:include page="../fragments/m_footer.jsp" />
+
+	<spring:url value="/resources/assets/js/jquery/jquery.min.js"
+		var="jqueryMin"></spring:url>
+	<script type="text/javascript" src="${jqueryMin}"></script>
+
+	<jsp:include page="../fragments/m_bottom_script.jsp"></jsp:include>
+
+	<spring:url value="/resources/assets/js/jquery/jquery.validate.js"
+		var="jqueryvalidate"></spring:url>
+	<script type="text/javascript" src="${jqueryvalidate}"></script>
+
+	<spring:url
+		value="/resources/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"
+		var="jqueryRepeaterMinJs" />
+	<script src="${jqueryRepeaterMinJs}" type="text/javascript"></script>
+
+	<spring:url
+		value="/resources/app-assets/js/scripts/forms/form-repeater.min.js"
+		var="formRepeaterMinJs" />
+	<script src="${formRepeaterMinJs}" type="text/javascript"></script>
+
+	<spring:url value="/resources/app/add-component.js"
+		var="addComponentJs" />
+	<script src="${addComponentJs}" type="text/javascript"></script>
+</body>
+</html>
